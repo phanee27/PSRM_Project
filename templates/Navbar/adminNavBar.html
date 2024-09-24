@@ -1,0 +1,20 @@
+{% load static %}
+<header>
+    <div class="logo">
+    <a href="{% url 'homepage' %}">
+    <img src="{% static 'images/logo.png' %}" alt="PS6 Logo">
+    </a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#properties">Properties</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="auth-buttons">
+        <a href="#login">Login</a>
+        <a href="#register">Register</a>
+    </div>
+</header>
