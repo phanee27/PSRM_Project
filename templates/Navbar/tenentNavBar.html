@@ -16,24 +16,23 @@
     <div class="right-container">
         <div class="auth-buttons">
             {% if user.is_authenticated %}
-            <span>Welcome, {{ user.username }}!</span>
-            <form action="{% url 'adminapp:logout_view' %}" method="POST" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" style="background-color: #16a085; color: #fff; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">
-                    Logout
-                </button>
-            </form>
+                <span class="welcome-message">Welcome {{ user.username }}</span>
+                <form action="{% url 'adminapp:logout_view' %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
             {% endif %}
         </div>
 
+
         {% if not user.is_authenticated %}
-        <div class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">Login/Register</a>
-            <div class="dropdown-content">
-                <a href="{% url 'adminapp:login_or_register' %}">Tenant</a>
-                <a href="{% url 'ownerapp:login_or_register1' %}">Owner</a>
+            <div class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">Login/Register</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'adminapp:login_or_register' %}">Tenant</a>
+                    <a href="{% url 'ownerapp:login_or_register1' %}">Owner</a>
+                </div>
             </div>
-        </div>
         {% endif %}
     </div>
 </header>
