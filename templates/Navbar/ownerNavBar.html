@@ -1,10 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% load static %}
+<header>
+    <div class="logo">
+    <a href="{% url 'ownerapp:ownerhomepage' %}">
+    <img src="{% static 'images/logo.png' %}" alt="PS6 Logo">
+    </a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#properties">Properties</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#profile">profile</a></li>
+            <li><a href="#upload property">Upload property</a></li>
+        </ul>
+    </nav>
+    <div class="auth-buttons">
+    {% if user.is_authenticated %}
+        <span>Welcome, {{ user.username }}!</span>
+        <form action="{% url 'adminapp:logout_view' %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #fff; color: #16a085; padding: 10px 20px; border-radius: 5px; border: 2px solid #16a085; cursor: pointer;">
+            Logout
+            </button>
+        </form>
+    {% else %}
+        <a href="{% url 'login_or_register' %}">Login/Register</a>
+
+    {% endif %}
+</div>
+</header>

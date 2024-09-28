@@ -1,20 +1,20 @@
 /* Global styles */
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5; /* Lighter background for a modern look */
-            color: #333;
-        }
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
 
-        h1, h2, h3, p {
-            margin: 0;
-            padding-bottom: 10px;
-        }
+h1, h2, h3, p {
+    margin: 0;
+    padding-bottom: 10px;
+}
 
-        /* Header styles */
+/* Header styles */
 header {
-    background-color: #AC8968;
+    background-color: #8B6C4F; /* Darker shade */
     color: #fff;
     padding: 15px 30px;
     display: flex;
@@ -37,16 +37,15 @@ nav ul {
 }
 
 nav ul li {
-    margin: 0;
+    position: relative; /* Required for dropdown positioning */
 }
 
 nav ul li a {
     color: #fff;
     text-decoration: none;
-    font-size: 1.2rem; /* Increased font size */
-    font-weight: 600;  /* Adjusted to bold for emphasis */
-    padding: 12px 18px; /* Slightly increased padding for a more prominent look */
-    font-family: 'Roboto', Arial, sans-serif; /* Ensuring consistent font family */
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 12px 18px;
     transition: background-color 0.3s, border-radius 0.3s;
     border-radius: 8px;
 }
@@ -56,23 +55,87 @@ nav ul li a:hover {
     border-radius: 5px;
 }
 
-/* Auth buttons (Login, Signup) */
-.auth-buttons a {
-    color: #fff;
-    text-decoration: none;
-    background-color: #865D36;
-    padding: 12px 22px; /* Increased padding */
-    border-radius: 8px;
-    margin-left: 10px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    font-weight: 600; /* Bold font for auth buttons */
-    font-size: 1.2rem; /* Increased font size */
-    font-family: 'Roboto', Arial, sans-serif; /* Ensuring consistent font family */
+/* Right container for dropdown and auth buttons */
+.right-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Push to the right */
+    gap: 20px; /* Space between dropdown and buttons */
 }
 
-.auth-buttons a:hover {
-    background-color: #AC8968;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+.dropdown .dropbtn {
+    color: #fff; /* Same as other nav links */
+    background-color: transparent;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    padding: 12px 18px;
+    cursor: pointer;
+    text-decoration: none; /* REMOVE UNDERLINE */
+    transition: background-color 0.3s;
+}
+
+.dropdown .dropbtn:hover {
+    background-color: #865D36; /* Same hover effect as other links */
+    border-radius: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* Align the dropdown to the right */
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none; /* REMOVE UNDERLINE */
+    display: block;
+    font-weight: 500;
+
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Auth buttons (Login, Signup, Logout) */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Ensures that the Login/Register dropdown moves to the right */
+}
+
+.auth-buttons span {
+    margin-right: 15px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fff;
+}
+
+.auth-buttons form button {
+    background-color: #16a085;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.auth-buttons form button:hover {
+    background-color: #149174;
 }
 
 /* Hero section styles */
@@ -83,13 +146,12 @@ nav ul li a:hover {
     padding: 100px 20px;
     text-align: center;
     position: relative;
-    height: 100vh; /* Full viewport height for impactful hero section */
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Reduce the overlay darkness */
 .hero::before {
     content: "";
     position: absolute;
@@ -97,7 +159,7 @@ nav ul li a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.2); /* Reduced opacity for brighter image */
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .hero-content {
@@ -106,7 +168,7 @@ nav ul li a:hover {
 }
 
 .hero h1 {
-    font-size: 3.5rem; /* Slightly larger for prominence */
+    font-size: 3.5rem;
     font-weight: 700;
 }
 
@@ -117,160 +179,132 @@ nav ul li a:hover {
 
 .cta-btn {
     padding: 15px 30px;
-    background-color: #AC8968; /* Old blue */
+    background-color: #AC8968;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 1.1rem; /* Slightly larger for emphasis */
+    font-size: 1.1rem;
     transition: background-color 0.3s;
 }
 
 .cta-btn:hover {
-    background-color: #865D36; /* Darker shade of the old blue */
+    background-color: #865D36;
 }
 
-
-        /* Features section styles */
-        .features {
-            background-color: #ffffff; /* Clean background for features */
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        .features h2 {
-            font-size: 2.5rem; /* Larger heading for emphasis */
-            font-weight: 700;
-            margin-bottom: 30px;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-gap: 20px; /* Adjusted gap for better spacing */
-        }
-
-        .feature-item {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            transition: box-shadow 0.3s;
-        }
-
-        .feature-item:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-item img {
-            width: 50px;
-            margin-bottom: 20px;
-        }
-
-        .feature-item h3 {
-            font-size: 1.25rem;
-            margin-bottom: 10px;
-        }
-
-        /* Property listings styles */
-        .property-listings {
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        .property-listings h2 {
-            font-size: 2.5rem; /* Larger heading for prominence */
-            font-weight: 700;
-            margin-bottom: 30px;
-        }
-
-        .property-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-gap: 30px;
-        }
-
-        /* Card and image styling */
-        .property {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            transition: box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .property img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        /* Card hover effect */
-        .property:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .property h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .property p {
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
-
-        .btn {
-            background-color: #AC8968; /* Old blue */
-            color: #fff;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #865D36; /* Darker shade of the old blue */
-        }
-
-        /* Footer styles */
-footer {
-    background-color: #AC8968; /* Reverted to old blue */
-    color: #fff;
-    padding: 20px;
+/* Features section styles */
+.features {
+    background-color: #ffffff;
+    padding: 60px 20px;
     text-align: center;
 }
 
-footer p {
-    font-size: 1rem;
-    margin: 0;
-    color: #fff;
+.features h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
 }
 
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .feature-grid, .property-grid {
-                grid-template-columns: 1fr;
-            }
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+}
 
-            header, .hero, .cta-btn {
-                flex-direction: column;
-                text-align: center;
-            }
+.feature-item {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+}
 
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-        }
-.parallax-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1; /* Place the video behind the hero content */
+.feature-item:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feature-item img {
+    width: 50px;
+    margin-bottom: 20px;
+}
+
+.feature-item h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+/* Property Listings Section */
+.property-listings {
+    background-color: #ffffff;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.property-listings h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.view-more-btn {
+    background-color: #AC8968;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.view-more-btn:hover {
+    background-color: #865D36;
+}
+
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+}
+
+.property {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+}
+
+.property img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.property h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.property p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Footer Section */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 50px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
 }

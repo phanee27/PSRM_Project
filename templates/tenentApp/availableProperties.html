@@ -1,10 +1,222 @@
-<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant Homepage</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/tenentApp/availableProperties.css' %}">
+        <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
+
+
 </head>
 <body>
-$END$
+{% block body %}
+
+    <!-- Include the navbar here -->
+    {% include 'Navbar/tenentNavBar.html' %}
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Available Properties</h1>
+
+        <!-- Card Grid with 3 cards per row -->
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- Row 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card1.jpeg' %}" class="card-img-top" alt="Property 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Luxury Villa</h5>
+                        <p class="card-text">A stunning villa located in the heart of the city, equipped with modern amenities.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card2.jpeg' %}" class="card-img-top" alt="Property 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Modern Apartment</h5>
+                        <p class="card-text">A sleek and stylish apartment perfect for urban living. Close to public transport.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card3.jpeg' %}" class="card-img-top" alt="Property 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Beachfront Condo</h5>
+                        <p class="card-text">Enjoy the ocean view from this gorgeous condo located just steps from the beach.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card4.jpeg' %}" class="card-img-top" alt="Property 4">
+                    <div class="card-body">
+                        <h5 class="card-title">Cozy Cottage</h5>
+                        <p class="card-text">A quaint and cozy cottage in a quiet neighborhood. Perfect for a weekend retreat.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card5.jpeg' %}" class="card-img-top" alt="Property 5">
+                    <div class="card-body">
+                        <h5 class="card-title">Penthouse Suite</h5>
+                        <p class="card-text">A luxurious penthouse suite offering panoramic views of the skyline.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card6.jpeg' %}" class="card-img-top" alt="Property 6">
+                    <div class="card-body">
+                        <h5 class="card-title">Country House</h5>
+                        <p class="card-text">A spacious country house surrounded by lush greenery and scenic landscapes.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card7.jpeg' %}" class="card-img-top" alt="Property 7">
+                    <div class="card-body">
+                        <h5 class="card-title">Studio Apartment</h5>
+                        <p class="card-text">A compact studio apartment, perfect for singles or young professionals.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card8.jpeg' %}" class="card-img-top" alt="Property 8">
+                    <div class="card-body">
+                        <h5 class="card-title">Suburban Home</h5>
+                        <p class="card-text">A family-friendly home located in a peaceful suburban neighborhood.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card9.png' %}" class="card-img-top" alt="Property 9">
+                    <div class="card-body">
+                        <h5 class="card-title">Mountain Cabin</h5>
+                        <p class="card-text">A rustic cabin nestled in the mountains. Perfect for nature lovers and adventurers.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 4 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card10.jpeg' %}" class="card-img-top" alt="Property 10">
+                    <div class="card-body">
+                        <h5 class="card-title">City Loft</h5>
+                        <p class="card-text">A trendy loft apartment in the heart of the city, ideal for urban dwellers.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card11.jpeg' %}" class="card-img-top" alt="Property 11">
+                    <div class="card-body">
+                        <h5 class="card-title">Historic Brownstone</h5>
+                        <p class="card-text">A charming historic brownstone with beautiful architecture and character.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card12.jpeg' %}" class="card-img-top" alt="Property 12">
+                    <div class="card-body">
+                        <h5 class="card-title">Countryside Manor</h5>
+                        <p class="card-text">A grand countryside manor with expansive grounds and luxurious interiors.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 5 -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card13.jpeg' %}" class="card-img-top" alt="Property 13">
+                    <div class="card-body">
+                        <h5 class="card-title">Luxury Duplex</h5>
+                        <p class="card-text">A contemporary luxury duplex, perfect for upscale living with style and comfort.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card14.jpeg' %}" class="card-img-top" alt="Property 14">
+                    <div class="card-body">
+                        <h5 class="card-title">Eco-Friendly Home</h5>
+                        <p class="card-text">An eco-friendly home designed with sustainability and modern living in mind.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% static 'images/availableProperties/card15.jpeg' %}" class="card-img-top" alt="Property 15">
+                    <div class="card-body">
+                        <h5 class="card-title">Loft Style Apartment</h5>
+                        <p class="card-text">A spacious loft-style apartment with open floor plans and modern finishes.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
+
 </body>
 </html>

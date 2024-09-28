@@ -1,32 +1,39 @@
 {% load static %}
 <header>
     <div class="logo">
-    <a href="{% url 'homepage' %}">
-    <img src="{% static 'images/logo.png' %}" alt="PS6 Logo">
-    </a>
+        <a href="{% url 'tenentapp:tenenthomepage' %}">
+            <img src="{% static 'images/logo.png' %}" alt="PS6 Logo">
+        </a>
     </div>
     <nav>
         <ul>
-            <li><a href="#home">Home</a></li>
+            <li><a href="{% url 'tenentapp:tenenthomepage' %}">Home</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#properties">Properties</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="#profile">profile</a></li>
+            <li><a href="#profile">Profile</a></li>
         </ul>
     </nav>
-    <div class="auth-buttons">
-    {% if user.is_authenticated %}
-        <span>Welcome, {{ user.username }}!</span>
-        <form action="{% url 'logout_view' %}" method="POST" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" style="background-color: #fff; color: #16a085; padding: 10px 20px; border-radius: 5px; border: 2px solid #16a085; cursor: pointer;">
-            Logout
-            </button>
+    <div class="right-container">
+        <div class="auth-buttons">
+            {% if user.is_authenticated %}
+            <span>Welcome, {{ user.username }}!</span>
+            <form action="{% url 'adminapp:logout_view' %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" style="background-color: #16a085; color: #fff; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">
+                    Logout
+                </button>
+            </form>
+            {% endif %}
+        </div>
 
-        </form>
-    {% else %}
-        <a href="{% url 'login_or_register' %}">Login/Register</a>
-
-    {% endif %}
-</div>
+        {% if not user.is_authenticated %}
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Login/Register</a>
+            <div class="dropdown-content">
+                <a href="{% url 'adminapp:login_or_register' %}">Tenant</a>
+                <a href="{% url 'ownerapp:login_or_register1' %}">Owner</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 </header>

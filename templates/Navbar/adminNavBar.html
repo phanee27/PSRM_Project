@@ -1,7 +1,7 @@
 {% load static %}
 <header>
     <div class="logo">
-    <a href="{% url 'homepage' %}">
+    <a href="{% url 'adminapp:homepage' %}">
     <img src="{% static 'images/logo.png' %}" alt="PS6 Logo">
     </a>
     </div>
@@ -11,10 +11,21 @@
             <li><a href="#features">Features</a></li>
             <li><a href="#properties">Properties</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="#upload property">Upload Property</a></li>
         </ul>
     </nav>
     <div class="auth-buttons">
-        <a href="#login">Login</a>
-        <a href="#register">Register</a>
-    </div>
+    {% if user.is_authenticated %}
+        <span>Welcome, {{ user.username }}!</span>
+        <form action="{% url 'adminapp:logout_view' %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #16a085; color: #fff; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">
+                Logout
+            </button>
+        </form>
+    {% else %}
+        <a href="{% url 'adminapp:login_or_register' %}">Login/Register</a>
+
+    {% endif %}
+</div>
 </header>
