@@ -1,0 +1,78 @@
+* {
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #faf0e6, #f5e9da); /* Very light beige gradient */
+    margin: 0;
+    padding: 20px;
+}
+
+.property-list {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap to the next line */
+    justify-content: space-between; /* Space between cards */
+}
+
+.property-card {
+    background-color: #ffffff; /* Keep the card white */
+    border: 1px solid #ccc; /* Adjust border to make it more visible */
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px);
+    margin-bottom: 20px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s;
+    height: 400px;
+}
+
+.property-card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+}
+
+.property-image {
+    width: 100%;
+    height: 250px; /* Increased image height to fill more of the card */
+    object-fit: cover;
+    border-radius: 0; /* Remove rounded corners for sharp edges */
+}
+
+h3 {
+    font-size: 1.5em; /* Size of property title */
+    margin: 10px 0; /* Space around title */
+}
+
+p {
+    font-size: 1em; /* Size of description */
+    color: #666; /* Slightly darker text for contrast */
+}
+
+.view-details {
+    display: inline-block; /* Make the button block */
+    margin-top: 10px; /* Space above button */
+    padding: 10px 15px; /* Button padding */
+    background-color: #6c757d; /* Button background color */
+    color: white; /* Button text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded button */
+    transition: background-color 0.3s; /* Animation for hover */
+}
+
+.view-details:hover {
+    background-color: #5a6268; /* Darker button color on hover */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .property-card {
+        width: calc(50% - 20px); /* 2 cards per row for medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .property-card {
+        width: 100%; /* 1 card per row for small screens */
+    }
+}

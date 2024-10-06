@@ -1,0 +1,27 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property List</title>
+    <link rel="stylesheet" href="{% static 'css/ownerApp/property_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
+
+</head>
+<body>
+    {% block body %}
+   <!-- Include the navbar here -->
+    {% include 'Navbar/ownerNavBar.html' %}
+    <div class="property-list">
+        {% for property in properties %}
+            <div class="property-card">
+                <img src="{{ property.image.url }}" alt="{{ property.title }}" class="property-image">
+                <h3>{{ property.title }}</h3>
+                <p>{{ property.overview }}</p>
+                <a href="{% url 'ownerapp:property_detail' property.pk %}" class="view-details">View Details</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+</body>
+</html>

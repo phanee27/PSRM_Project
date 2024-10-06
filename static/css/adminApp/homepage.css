@@ -320,88 +320,73 @@ footer p {
     font-size: 0.9rem;
 }
 
-/* Auth buttons styles */
-.auth-buttons {
-    display: flex;
-    align-items: center;
-    margin-left: auto; /* Ensures that the Logout button moves to the right */
+/* Navbar */
+.navbar {
+  background-color: #8B4513; /* Dark brown for navbar background */
+  color: white; /* White text for better contrast */
+  padding: 15px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  border-bottom: 2px solid #A0522D; /* Optional border at the bottom */
 }
 
-.welcome-message {
-    font-size: 1rem; /* Slightly smaller for a more refined look */
-    font-weight: 400; /* Normal weight for professionalism */
-    color: #34495e; /* Darker gray for a more sophisticated appearance */
-    margin-right: 15px; /* Space between welcome message and logout button */
-    text-align: right; /* Align text to the right */
-    padding-right: 10px; /* Extra space to enhance readability */
+.navbar-brand {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #F5DEB3; /* Light brown for the brand/logo */
 }
 
-/* Logout button styles */
-.logout-btn {
-    background-color: #3498db; /* Lighter professional blue */
-    color: #fff;
-    padding: 10px 18px; /* Adjust padding for better proportions */
-    border-radius: 4px; /* Slightly less rounded for a sharper look */
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
-    font-size: 1rem; /* Match font size to the homepage */
-    font-weight: 500; /* Slightly bolder for emphasis */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+.navbar-brand:hover {
+  color: #FFD700; /* Golden hover effect */
 }
 
-.logout-btn:hover {
-    background-color: #2980b9; /* Darker shade for hover effect */
-    transform: translateY(-2px); /* Slight lift effect on hover */
+.navbar-nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
 }
 
-/* Dropdown button style */
-.dropdown .dropbtn {
-    font-size: 1rem; /* Adjust font size to match homepage */
-    font-weight: 500; /* Bold text */
-    padding: 10px 15px; /* Adjusted for better proportions */
-    transition: background-color 0.3s, color 0.3s;
-    color: #34495e; /* Match the welcome message color */
-    border: none; /* Remove border for cleaner look */
-    border-radius: 4px; /* Match logout button for consistency */
+.navbar-nav li {
+  margin-right: 20px;
 }
 
-/* Responsive styles */
+.navbar-nav a {
+  text-decoration: none;
+  color: #F5DEB3; /* Light brown for links */
+  font-size: 1.1em;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav a:hover {
+  color: #FFD700; /* Golden color on hover */
+}
+
+.navbar-toggler {
+  border: none;
+  background-color: #8B4513;
+  color: white;
+  font-size: 1.2em;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.navbar-toggler:hover {
+  background-color: #A0522D; /* Slightly lighter brown on hover */
+}
+
+.navbar-collapse {
+  justify-content: space-between;
+}
+
+/* Responsive behavior for small screens */
 @media (max-width: 768px) {
-    .auth-buttons {
-        flex-direction: column; /* Stack items vertically */
-        align-items: flex-start; /* Align to start */
-        margin-left: 0; /* Reset margin for smaller screens */
-    }
+  .navbar-nav {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .welcome-message {
-        font-size: 0.9rem; /* Slightly smaller for mobile */
-        margin-bottom: 5px; /* Space below welcome message */
-    }
-
-    .logout-btn {
-        width: 100%; /* Full width button on smaller screens */
-        margin-top: 5px; /* Space above logout button */
-    }
-
-    .dropdown .dropbtn {
-        width: 100%; /* Full width button */
-        padding: 10px; /* Adjust padding */
-    }
-}
-
-@media (max-width: 480px) {
-    .welcome-message {
-        font-size: 0.8rem; /* Even smaller for very small screens */
-    }
-
-    .logout-btn {
-        padding: 8px 12px; /* Smaller padding */
-        font-size: 0.9rem; /* Smaller font size */
-    }
-
-    .dropdown .dropbtn {
-        padding: 8px; /* Smaller padding */
-        font-size: 0.9rem; /* Smaller font size */
-    }
+  .navbar-nav li {
+    margin-bottom: 15px;
+  }
 }

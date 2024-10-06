@@ -1,0 +1,21 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Property</title>
+    <link rel="stylesheet" href="{% static 'css/ownerApp/upload_property.css' %}">
+</head>
+
+<body>
+    {% block body %}
+    <!-- Include the navbar here -->
+    {% include 'Navbar/ownerNavBar.html' %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- This will render your form fields as paragraph elements -->
+        <button type="submit">Upload Property</button>
+    </form>
+    {% endblock %}
+</body>
+</html>
