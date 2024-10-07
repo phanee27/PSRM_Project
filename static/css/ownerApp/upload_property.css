@@ -1,65 +1,71 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f4f4f9, #ece2d0);
-    background-attachment: fixed;
-    padding: 20px;
-    overflow-y: auto;
+/* upload_property.css */
+
+.upload-property-form {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f5f5dc;
+  border: 1px solid #d5d5d5;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Georgia', serif;
 }
 
-form {
-    background-color: transparent; /* Removed background color */
-    width: 100%;
-    max-width: 1000px;
-    margin-top: 20px;
+.upload-property-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 18px;
 }
 
-form p {
-    margin-bottom: 15px;
-    color: #333;
-    font-size: 20px;
-    font-weight: bold;
+.upload-property-form input,
+.upload-property-form select,
+.upload-property-form textarea {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #d5d5d5;
+  border-radius: 5px;
+  font-size: 18px;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
 }
 
-input, textarea, select {
-    width: 100%;
-    padding: 18px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 0px; /* Removed border radius */
-    font-size: 18px;
-    background-color: #f8f8f8;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    color: #555;
-    transition: border-color 0.2s, color 0.2s;
+.upload-property-form input:hover,
+.upload-property-form select:hover,
+.upload-property-form textarea:hover {
+  border-color: #cba987;
 }
 
-input:focus, textarea:focus, select:focus {
-    border-color: #b08968;
-    outline: none;
-    box-shadow: none; /* Removed box-shadow */
-    color: #333;
+.upload-property-form textarea {
+  height: 150px;
+  resize: vertical;
 }
 
-button {
-    background-color: #b08968;
-    color: white;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 0px; /* Removed border radius */
-    font-size: 18px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-    transition: background-color 0.3s ease;
+.upload-property-form button[type="submit"] {
+  width: 100%;
+  height: 50px;
+  background-color: #cba987;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #9c6f56;
+.upload-property-form button[type="submit"]:hover {
+  background-color: #b38f5a;
+}
+
+/* Error message styling (optional) */
+
+.upload-property-form .error {
+  color: #f00;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.upload-property-form .error li {
+  list-style: disc;
 }

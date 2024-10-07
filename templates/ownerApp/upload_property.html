@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Property</title>
+    <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'css/ownerApp/upload_property.css' %}">
 </head>
 
@@ -11,10 +14,12 @@
     {% block body %}
     <!-- Include the navbar here -->
     {% include 'Navbar/ownerNavBar.html' %}
-    <form method="post" enctype="multipart/form-data">
+    <form  class="upload-property-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
         {{ form.as_p }}  <!-- This will render your form fields as paragraph elements -->
         <button type="submit">Upload Property</button>
+
     </form>
     {% endblock %}
 </body>

@@ -1,6 +1,7 @@
 /* Global styles */
 body {
-    font-family: 'Roboto', Arial, sans-serif;
+
+    font-family: 'Georgia', serif;
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
@@ -14,8 +15,8 @@ h1, h2, h3, p {
 
 /* Header styles */
 header {
-    background-color: #ffffff; /* Changed to white */
-    color: #333; /* Dark text color */
+    background-color: #ffffff;
+    color: #333;
     padding: 15px 30px;
     display: flex;
     justify-content: space-between;
@@ -37,93 +38,114 @@ nav ul {
 }
 
 nav ul li {
-    position: relative; /* Required for dropdown positioning */
+    position: relative;
 }
 
 nav ul li a {
-    color: #333; /* Changed text color to dark for better contrast */
+    color: #333;
     text-decoration: none;
     font-size: 1.2rem;
     font-weight: 600;
     padding: 12px 18px;
-    transition: background-color 0.3s, border-radius 0.3s, color 0.3s; /* Added color transition */
-    border-radius: 8px;
+    transition: border-bottom 0.3s, color 0.3s;
 }
 
 nav ul li a:hover {
-    background-color: #865D36; /* Darker shade for hover */
-    border-radius: 5px;
-    color: #fff; /* Text color change on hover */
+    background-color: transparent;
+    border-bottom: 3px solid #8B4513;
+    color: #8B4513;
 }
 
 /* Right container for dropdown and auth buttons */
 .right-container {
     display: flex;
     align-items: center;
-    margin-left: auto; /* Push to the right */
-    gap: 20px; /* Space between dropdown and buttons */
+    margin-left: auto;
+    gap: 20px;
 }
 
+/* Style for the dropdown button */
 .dropdown .dropbtn {
-    color: #333; /* Changed to match other nav links */
-    background-color: transparent;
-    font-size: 1.2rem;
-    font-weight: 600;
+    background-color: #865D36; /* Brown background */
+    color: #fff; /* White text */
+    padding: 12px 16px;
+    font-size: 16px;
     border: none;
-    padding: 12px 18px;
     cursor: pointer;
-    text-decoration: none; /* REMOVE UNDERLINE */
-    transition: background-color 0.3s, color 0.3s; /* Added color transition */
+    position: relative;
+    display: inline-block;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }
 
-.dropdown .dropbtn:hover {
-    background-color: #865D36; /* Same hover effect as other links */
-    color: #fff; /* Change text color on hover */
-    border-radius: 5px;
+.dropdown .dropbtn .dropdown-icon {
+    margin-left: 8px;
+    font-size: 0.8rem; /* Smaller arrow */
+    transition: transform 0.3s ease; /* Rotate arrow on hover */
 }
 
+.dropdown:hover .dropbtn {
+    background-color: #6b4b29; /* Darker brown on hover */
+}
+
+.dropdown:hover .dropbtn .dropdown-icon {
+    transform: rotate(180deg); /* Arrow rotates on hover */
+}
+
+/* Dropdown content (hidden by default) */
 .dropdown-content {
     display: none;
     position: absolute;
-    right: 0; /* Align the dropdown to the right */
-    background-color: #fff;
+    right: 0;
+    background-color: #fefefe;
     min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.15); /* Subtle shadow */
     border-radius: 8px;
-    overflow: hidden;
-}
-
-.dropdown-content a {
-    color: #333;
-    padding: 12px 16px;
-    text-decoration: none; /* REMOVE UNDERLINE */
-    display: block;
-    font-weight: 500;
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1; /* Slightly darker on hover */
-    color: #865D36; /* Change text color on hover */
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(-10px); /* Dropdown starts off slightly above */
+    transition: all 0.3s ease; /* Smooth animation */
 }
 
 /* Show dropdown on hover */
 .dropdown:hover .dropdown-content {
     display: block;
+    opacity: 1;
+    transform: translateY(0); /* Animate into view */
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: #333; /* Dark text */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-weight: 500;
+    background-color: #ffffff;
+    border-left: 4px solid transparent; /* Hidden left border */
+    transition: all 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover effects for dropdown items */
+.dropdown-content a:hover {
+    background-color: #865D36; /* Brown background on hover */
+    color: #fff; /* White text on hover */
+    border-left: 4px solid #865D36; /* Brown border on hover */
+    padding-left: 12px; /* Adjust padding for left border */
 }
 
 /* Auth buttons (Login, Signup, Logout) */
 .auth-buttons {
     display: flex;
     align-items: center;
-    margin-left: auto; /* Ensures that the Login/Register dropdown moves to the right */
+    margin-left: auto;
 }
 
 .auth-buttons span {
     margin-right: 15px;
     font-size: 1.2rem;
     font-weight: 500;
-    color: #333; /* Changed text color to dark */
+    color: #333;
 }
 
 .auth-buttons form button {
@@ -133,12 +155,12 @@ nav ul li a:hover {
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s; /* Added transform transition */
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .auth-buttons form button:hover {
     background-color: #149174;
-    transform: scale(1.05); /* Slightly scale up on hover */
+    transform: scale(1.05);
 }
 
 /* Hero section styles */
@@ -187,12 +209,12 @@ nav ul li a:hover {
     text-decoration: none;
     border-radius: 5px;
     font-size: 1.1rem;
-    transition: background-color 0.3s, transform 0.3s; /* Added transform transition */
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .cta-btn:hover {
     background-color: #865D36;
-    transform: scale(1.05); /* Slightly scale up on hover */
+    transform: scale(1.05);
 }
 
 /* Features section styles */
@@ -218,12 +240,12 @@ nav ul li a:hover {
     background-color: #f5f5f5;
     padding: 20px;
     border-radius: 8px;
-    transition: box-shadow 0.3s, transform 0.3s; /* Added transform transition */
+    transition: box-shadow 0.3s, transform 0.3s;
 }
 
 .feature-item:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px); /* Lift effect on hover */
+    transform: translateY(-5px);
 }
 
 .feature-item img {
@@ -263,12 +285,12 @@ nav ul li a:hover {
     border-radius: 5px;
     text-decoration: none;
     font-size: 1rem;
-    transition: background-color 0.3s, transform 0.3s; /* Added transform transition */
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .view-more-btn:hover {
     background-color: #865D36;
-    transform: scale(1.05); /* Slightly scale up on hover */
+    transform: scale(1.05);
 }
 
 .property-grid {
@@ -281,12 +303,12 @@ nav ul li a:hover {
     background-color: #f5f5f5;
     padding: 20px;
     border-radius: 8px;
-    transition: box-shadow 0.3s, transform 0.3s; /* Added transform transition */
+    transition: box-shadow 0.3s, transform 0.3s;
 }
 
 .property:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px); /* Lift effect on hover */
+    transform: translateY(-5px);
 }
 
 .property img {
@@ -322,21 +344,21 @@ footer p {
 
 /* Navbar */
 .navbar {
-  background-color: #8B4513; /* Dark brown for navbar background */
-  color: white; /* White text for better contrast */
+  background-color: #8B4513;
+  color: white;
   padding: 15px 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
-  border-bottom: 2px solid #A0522D; /* Optional border at the bottom */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid #A0522D;
 }
 
 .navbar-brand {
   font-size: 1.5em;
   font-weight: bold;
-  color: #F5DEB3; /* Light brown for the brand/logo */
+  color: #F5DEB3;
 }
 
 .navbar-brand:hover {
-  color: #FFD700; /* Golden hover effect */
+  color: #FFD700;
 }
 
 .navbar-nav {
@@ -352,13 +374,13 @@ footer p {
 
 .navbar-nav a {
   text-decoration: none;
-  color: #F5DEB3; /* Light brown for links */
+  color: #F5DEB3;
   font-size: 1.1em;
   transition: color 0.3s ease;
 }
 
 .navbar-nav a:hover {
-  color: #FFD700; /* Golden color on hover */
+  color: #FFD700;
 }
 
 .navbar-toggler {
@@ -372,7 +394,7 @@ footer p {
 }
 
 .navbar-toggler:hover {
-  background-color: #A0522D; /* Slightly lighter brown on hover */
+  background-color: #A0522D;
 }
 
 .navbar-collapse {
@@ -390,5 +412,3 @@ footer p {
     margin-bottom: 15px;
   }
 }
-
-
