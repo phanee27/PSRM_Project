@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'adminapp',
-    'chatbotapp',
     'ownerapp',
     'tenentapp',
 ]
