@@ -62,8 +62,11 @@ def login_or_register1(request):
                 else:
                     return redirect('ownerapp:ohomepage1')
             else:
-                messages.error(request, 'Invalid username or password')
-
+                # If authentication fails, check if the username exists
+                if User.objects.filter(username=username).exists():
+                    messages.error(request, 'Incorrect password. Please try again.')
+                else:
+                    messages.error(request, 'Username not found. Please check your username.')
     return render(request, 'ownerApp/loginpage1.html')
 
 

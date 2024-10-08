@@ -21,6 +21,7 @@ class OwnerProfileForm(forms.ModelForm):
         model = OwnerProfile
         fields = ['profile_image', 'phone_number', 'address']
 
+
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
         if phone_number and not phone_number.isdigit():
