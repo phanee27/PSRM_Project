@@ -1,6 +1,5 @@
 /* Global styles */
 body {
-
     font-family: 'Georgia', serif;
     margin: 0;
     padding: 0;
@@ -163,38 +162,44 @@ nav ul li a:hover {
     transform: scale(1.05);
 }
 
-/* Hero section styles */
+/* Updated Hero section with video background */
 .hero {
-    background-size: cover;
-    background-position: center;
-    color: #fff;
-    padding: 100px 20px;
-    text-align: center;
     position: relative;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
 }
 
-.hero::before {
-    content: "";
+.hero video {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.2);
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    object-fit: cover; /* Ensures the video covers the hero section */
+    filter: brightness(60%); /* Darkens the video for better text visibility */
 }
 
 .hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    max-width: 800px; /* Control text width */
+    padding: 0 20px;
 }
 
 .hero h1 {
     font-size: 3.5rem;
     font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
 }
 
 .hero p {
@@ -215,6 +220,22 @@ nav ul li a:hover {
 .cta-btn:hover {
     background-color: #865D36;
     transform: scale(1.05);
+}
+
+/* Add media queries to make it responsive */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+    }
+
+    .cta-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
 }
 
 /* Features section styles */
@@ -319,28 +340,22 @@ nav ul li a:hover {
 }
 
 .property h3 {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     margin-bottom: 10px;
 }
 
-.property p {
-    font-size: 1rem;
-    color: #666;
-}
-
-/* Footer Section */
+/* Footer styles */
 footer {
     background-color: #333;
-    color: white;
-    padding: 20px 0;
+    color: #fff;
+    padding: 30px 20px;
     text-align: center;
-    margin-top: 50px;
 }
 
 footer p {
-    margin: 0;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
+
 
 /* Navbar */
 .navbar {
