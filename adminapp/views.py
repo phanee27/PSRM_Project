@@ -81,7 +81,3 @@ def logout_view(request):
 def homepage1(request):
     return render(request, 'adminApp/homepage.html', {'username': request.user.username})
 
-
-
-def properties(request):
-    return render(request,'tenentApp/availableProperties.html')

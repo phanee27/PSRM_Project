@@ -33,8 +33,10 @@ def login_or_register1(request):
             else:
                 user = User.objects.create_user(username=username, email=email, password=password)
                 user.save()
-                messages.success(request, 'Registration successful! Please log in.')
-                return redirect('ownerapp:login_or_register1')
+                messages.success(request, 'Registration successful! Please complete your profile.')
+                # return redirect('ownerapp:owner_profile')  # Redirect to profile creation page
+                return redirect('adminapp:login_or_register')  # Redirect to the same page for login
+
         elif 'login' in request.POST:
             # Login Logic
             username = request.POST['username']
@@ -43,6 +45,8 @@ def login_or_register1(request):
 
             if user is not None:
                 login(request, user)
+                # Create OwnerProfile if not exists
+                OwnerProfile.objects.get_or_create(user=user)  # Ensure profile is created
 
                 # Save login data in OwnerUser table if not already present
                 if not OwnerUser.objects.filter(user=user).exists():
@@ -89,3 +93,53 @@ def property_list(request):
 def property_detail(request, pk):
     property = Property.objects.get(pk=pk)
     return render(request, 'ownerApp/property_detail.html', {'property': property})
+
+
+# views.py
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import OwnerProfile
+from .forms import OwnerProfileForm
+
+# views.py
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import OwnerProfile
+from .forms import OwnerProfileForm
+
+@login_required
+def owner_profile(request):
+    # Ensure there is always an OwnerProfile for the user
+    profile, created = OwnerProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        # Handle the profile update form
+        form = OwnerProfileForm(request.POST, request.FILES, instance=profile)
+        if 'update_profile' in request.POST:
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Profile updated successfully!')
+                return redirect('ownerapp:owner_profile')  # Redirect to avoid resubmission
+
+        # Handle the password change form
+        password_form = PasswordChangeForm(request.user, request.POST)
+        if 'change_password' in request.POST:
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)  # Important!
+                messages.success(request, 'Password changed successfully!')
+                return redirect('ownerapp:owner_profile')  # Redirect to avoid resubmission
+
+    else:
+        form = OwnerProfileForm(instance=profile)
+        password_form = PasswordChangeForm(request.user)
+
+    return render(request, 'ownerApp/ownerProfile.html', {
+        'form': form,
+        'password_form': password_form,
+        'profile': profile
+    })

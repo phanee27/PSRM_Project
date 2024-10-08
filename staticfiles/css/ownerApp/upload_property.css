@@ -1,0 +1,71 @@
+/* upload_property.css */
+
+.upload-property-form {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f5f5dc;
+  border: 1px solid #d5d5d5;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Georgia', serif;
+}
+
+.upload-property-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.upload-property-form input,
+.upload-property-form select,
+.upload-property-form textarea {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #d5d5d5;
+  border-radius: 5px;
+  font-size: 18px;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.upload-property-form input:hover,
+.upload-property-form select:hover,
+.upload-property-form textarea:hover {
+  border-color: #cba987;
+}
+
+.upload-property-form textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.upload-property-form button[type="submit"] {
+  width: 100%;
+  height: 50px;
+  background-color: #cba987;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-property-form button[type="submit"]:hover {
+  background-color: #b38f5a;
+}
+
+/* Error message styling (optional) */
+
+.upload-property-form .error {
+  color: #f00;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.upload-property-form .error li {
+  list-style: disc;
+}

@@ -10,7 +10,7 @@
             <li><a href="{% url 'ownerapp:ownerhomepage' %}">Home</a></li>
             <li><a href="{% url 'ownerapp:property_list'  %}">Properties</a></li>
             <li><a href="#contact">Contact</a></li>
-            <li><a href="#profile">Profile</a></li>
+            <li><a href="{% url 'ownerapp:owner_profile' %}">Profile</a></li>
             <li><a href="{% url 'ownerapp:upload_property'  %}">Upload Property</a></li> <!-- Changed to use hyphen -->
         </ul>
     </nav>
