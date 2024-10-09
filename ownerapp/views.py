@@ -36,7 +36,7 @@ def login_or_register1(request):
                 messages.success(request, 'Registration successful! Please complete your profile.')
                 # return redirect('ownerapp:owner_profile')  # Redirect to profile creation page
                 return redirect('adminapp:login_or_register')  # Redirect to the same page for login
-
+        
         elif 'login' in request.POST:
             # Login Logic
             username = request.POST['username']
@@ -87,6 +87,8 @@ def upload_property(request):
             return redirect('ownerapp:property_list')  # Redirect to the list of properties
     else:
         form = PropertyForm()
+
+    # If the form is invalid, render the form with error messages
     return render(request, 'ownerApp/upload_property.html', {'form': form})
 
 def property_list(request):
@@ -96,6 +98,41 @@ def property_list(request):
 def property_detail(request, pk):
     property = Property.objects.get(pk=pk)
     return render(request, 'ownerApp/property_detail.html', {'property': property})
+
+# views.py
+
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Property
+from .forms import PropertyForm
+
+def edit_property(request, pk):
+    property = get_object_or_404(Property, pk=pk)
+    if request.method == 'POST':
+        form = PropertyForm(request.POST, request.FILES, instance=property)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Property updated successfully!')  # Success message
+            return redirect('ownerapp:property_list')
+    else:
+        form = PropertyForm(instance=property)
+    return render(request, 'ownerApp/edit_property.html', {'form': form})
+
+
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Property
+from django.contrib import messages
+
+
+def delete_property(request, pk):
+    property = get_object_or_404(Property, pk=pk)
+    if request.method == 'POST':
+        property.delete()
+        messages.success(request, 'Property deleted successfully!')  # Add a success message if desired
+        return redirect('ownerapp:property_list')
+
+    # For GET requests, you could render a confirmation modal or message if necessary
+    return render(request, 'ownerApp/property_list.html', {'property': property})
 
 
 # views.py

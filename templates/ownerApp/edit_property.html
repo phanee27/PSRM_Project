@@ -1,0 +1,21 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Property</title>
+    <link rel="stylesheet" href="{% static 'css/ownerApp/upload_property.css' %}">
+        <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
+        <link rel="stylesheet" href="{% static 'css/ownerApp/edit_property.css' %}">
+</head>
+<body>
+    {% block body %}
+    {% include 'Navbar/ownerNavBar.html' %}
+    <form class="upload-property-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Property</button>
+    </form>
+    {% endblock %}
+</body>
+</html>

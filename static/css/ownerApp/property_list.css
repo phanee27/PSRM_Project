@@ -1,3 +1,5 @@
+/* property_list.css */
+
 * {
     box-sizing: border-box; /* Ensure padding and border are included in width */
 }
@@ -11,25 +13,42 @@ body {
 
 .property-list {
     display: flex;
-    flex-wrap: wrap; /* Allow cards to wrap to the next line */
-    justify-content: space-between; /* Space between cards */
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Aligns cards to the left */
+    gap: 20px; /* Evenly space out the cards */
 }
 
 .property-card {
-    background-color: #ffffff; /* Keep the card white */
-    border: 1px solid #ccc; /* Adjust border to make it more visible */
+    background-color: #ffffff;
+    border: 1px solid #ccc;
     border-radius: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: calc(33.333% - 20px);
+    width: calc(33.333% - 20px); /* Ensures 3 cards per row */
     margin-bottom: 20px;
     padding: 15px;
     text-align: center;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
     height: 400px;
+    flex-grow: 0; /* Prevents stretching */
+    flex-shrink: 0; /* Prevents shrinking */
 }
+
+@media (max-width: 768px) {
+    .property-card {
+        width: calc(50% - 20px); /* 2 cards per row for medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .property-card {
+        width: 100%; /* 1 card per row for small screens */
+    }
+}
+
 
 .property-card:hover {
     transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
 }
 
 .property-image {
@@ -60,19 +79,208 @@ p {
     transition: background-color 0.3s; /* Animation for hover */
 }
 
-.view-details:hover {
+.view-details-edit {
+    display: inline-block; /* Make the button block */
+    margin-top: 10px; /* Space above button */
+    padding: 10px 15px; /* Button padding */
+    background-color: #90e0ef; /* Button background color */
+    color: white; /* Button text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded button */
+    transition: background-color 0.3s; /* Animation for hover */
+}
+.delete-button {
+    display: inline-block; /* Make the button block */
+    margin-top: 10px; /* Space above button */
+    padding: 10px 15px; /* Button padding */
+    background-color: #ff8164; /* Button background color */
+    color: white; /* Button text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded button */
+    border: 2px solid transparent; /* Transparent border */
+    transition: background-color 0.3s, border-color 0.3s; /* Animation for hover */
+}
+
+.view-details:hover{
     background-color: #5a6268; /* Darker button color on hover */
 }
+.view-details-edit:hover{
+    background-color: #48caef; /* Darker button color on hover */
+}
+.delete-button:hover {
+    background-color: #e86a4f; /* Darker shade on hover */
 
-/* Media Queries for Responsive Design */
-@media (max-width: 768px) {
-    .property-card {
-        width: calc(50% - 20px); /* 2 cards per row for medium screens */
+}
+
+/* Modal container */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+    justify-content: center;
+    align-items: center;
+    overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%; /* Responsive width */
+    max-width: 500px; /* Max width for larger screens */
+    margin: auto;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Close button (X) */
+.close {
+    color: #333;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover, .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal heading */
+.modal-content h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Buttons inside the modal */
+.modal-content button {
+    background-color: #b08d57; /* Light brown */
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for buttons */
+.modal-content button:hover {
+    background-color: #946b3d; /* Darker brown on hover */
+}
+
+/* Animation for the modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
+/* Cancel button styling */
+#cancelDelete {
+    background-color: #cccccc; /* Grey for cancel */
+    color: #333;
+}
+
+#cancelDelete:hover {
+    background-color: #999999; /* Darker grey on hover */
+}
+
+/* Responsive design for smaller screens */
 @media (max-width: 480px) {
-    .property-card {
-        width: 100%; /* 1 card per row for small screens */
+    .modal-content {
+        width: 100%; /* Full width on small screens */
+        margin: 10px;
     }
 }
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Can be adjusted based on screen size */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Buttons in the modal */
+.btn-light-brown {
+    background-color: #ff8164; /* Red background color for the delete button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-light-brown:hover {
+    background-color: #e86a4f; /* Darker red on hover */
+}
+
+#cancelDelete {
+    background-color: #ccc; /* Gray for cancel button */
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#cancelDelete:hover {
+    background-color: #bbb; /* Darker gray on hover */
+}
+

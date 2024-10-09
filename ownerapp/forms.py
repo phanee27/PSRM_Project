@@ -7,7 +7,7 @@ class PropertyForm(forms.ModelForm):
         fields = ['title', 'image', 'overview', 'location', 'property_type',
                   'price', 'description', 'size', 'bedrooms', 'bathrooms',
                   'parking', 'year_built', 'flooring_type', 'owner_name',
-                  'email', 'phone']
+                  'email', 'phone','occupancy_status']
 
 
 # forms.py

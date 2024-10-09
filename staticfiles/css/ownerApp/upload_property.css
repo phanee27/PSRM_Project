@@ -1,7 +1,11 @@
 /* upload_property.css */
+body {
+    background-color: #f7f7e3;  /* Lightened version of the card background */
+    margin: 0;  /* Remove default margin */
+}
 
 .upload-property-form {
-  max-width: 800px;
+  max-width: 1200px;  /* Adjust based on your design */
   margin: 40px auto;
   padding: 20px;
   background-color: #f5f5dc;
@@ -9,6 +13,22 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-family: 'Georgia', serif;
+}
+
+.form-container {
+  display: flex;  /* Create a flex container */
+  justify-content: space-between;  /* Space between columns */
+}
+
+.left-column,
+.right-column {
+  flex: 1;  /* Each column takes equal width */
+  margin-right: 20px;  /* Space between columns */
+}
+
+.left-column:last-child,bo
+.right-column:last-child {
+  margin-right: 0;  /* Remove margin for the last column */
 }
 
 .upload-property-form label {
@@ -21,25 +41,11 @@
 .upload-property-form select,
 .upload-property-form textarea {
   width: 100%;
-  height: 50px;
   margin-bottom: 20px;
   padding: 10px;
   border: 1px solid #d5d5d5;
   border-radius: 5px;
   font-size: 18px;
-  background-color: #fff;
-  transition: border-color 0.3s ease;
-}
-
-.upload-property-form input:hover,
-.upload-property-form select:hover,
-.upload-property-form textarea:hover {
-  border-color: #cba987;
-}
-
-.upload-property-form textarea {
-  height: 150px;
-  resize: vertical;
 }
 
 .upload-property-form button[type="submit"] {

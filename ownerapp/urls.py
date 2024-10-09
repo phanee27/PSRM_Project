@@ -12,5 +12,8 @@ path('ownerhomepage/',views.ownerhompage,name='ownerhomepage'),
     path('upload_property/', views.upload_property, name='upload_property'),
     path('property_list/', views.property_list, name='property_list'),
     path('properties/<int:pk>/', views.property_detail, name='property_detail'),
+path('properties/edit/<int:pk>/', views.edit_property, name='edit_property'),
+path('properties/delete/<int:pk>/', views.delete_property, name='delete_property'),
+
     path('owner_profile/', views.owner_profile, name='owner_profile'),
 ]

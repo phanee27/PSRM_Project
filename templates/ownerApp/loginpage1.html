@@ -219,7 +219,7 @@
             align-items: center;
         }
 
-        .messages {
+        .login-messages {
             color: red; /* Style for messages */
             margin: 10px 0; /* Space above and below the messages */
             text-align: center; /* Center-align messages */
@@ -232,7 +232,7 @@
             <form method="POST" action="{% url 'ownerapp:login_or_register1' %}">
                 {% csrf_token %}
                 {% if messages %}
-                    <div class="messages">
+                    <div class="login-messages">
                         <ul>
                             {% for message in messages %}
                                 <li>{{ message }}</li>
@@ -252,7 +252,7 @@
             <form method="POST" action="{% url 'ownerapp:login_or_register1' %}">
                 {% csrf_token %}
                 {% if messages %}
-                    <div class="messages">
+                    <div class="login-messages">
                         <ul>
                             {% for message in messages %}
                                 <li>{{ message }}</li>

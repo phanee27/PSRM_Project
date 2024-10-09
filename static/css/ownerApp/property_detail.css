@@ -1,10 +1,11 @@
+/* property_detail.css */
 
-    body {
+body {
     font-family: 'Roboto', sans-serif;
     background-color: #f0f0f0;
     margin: 0;
     padding: 0;
-        }
+}
 
 .header {
     background-color: #5d4037; /* Dark brown */
@@ -51,6 +52,29 @@ h2, h3 {
     color: #3b3b3b;
 }
 
+.property-description {
+    margin-bottom: 20px; /* Add space below the description */
+}
+
+.property-features {
+    background-color: #f9f9f9; /* Light grey for features section */
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.property-features h4 {
+    margin-bottom: 10px; /* Space below features title */
+}
+
+.property-features ul {
+    list-style-type: none; /* Remove default bullet points */
+    padding: 0; /* Remove default padding */
+}
+
+.property-features li {
+    margin-bottom: 5px; /* Space between features */
+}
+
 .btn-light-brown {
     background-color: #8d6e63;
     color: #fff;
@@ -84,4 +108,3 @@ h2, h3 {
         width: 100%;
     }
 }
-

@@ -35,6 +35,7 @@ class Property(models.Model):
     owner_name = models.CharField(max_length=100, default='Unknown Owner')
     email = models.EmailField()
     phone = models.CharField(max_length=15)
+    occupancy_status = models.CharField(max_length=20, default='Available')  # Available or Rented
 
     def __str__(self):
         return self.title
