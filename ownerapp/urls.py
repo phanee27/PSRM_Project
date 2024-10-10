@@ -16,4 +16,5 @@ path('properties/edit/<int:pk>/', views.edit_property, name='edit_property'),
 path('properties/delete/<int:pk>/', views.delete_property, name='delete_property'),
 
     path('owner_profile/', views.owner_profile, name='owner_profile'),
+    path('about_us',views.about_us,name='about_us'),
 ]

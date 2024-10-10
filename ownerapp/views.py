@@ -183,3 +183,6 @@ def owner_profile(request):
         'password_form': password_form,
         'profile': profile
     })
+
+def about_us(request):
+    return render(request,'ownerApp/about_us.html')

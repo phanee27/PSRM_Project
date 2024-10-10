@@ -28,10 +28,11 @@ body {
     padding: 15px;
     text-align: center;
     transition: transform 0.2s, box-shadow 0.2s;
-    height: 400px;
+    height: 450px; /* Increased height to fit buttons */
     flex-grow: 0; /* Prevents stretching */
     flex-shrink: 0; /* Prevents shrinking */
 }
+
 
 @media (max-width: 768px) {
     .property-card {
