@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
 
 # Create your views here.
 def ownerhompage(request):
@@ -75,37 +76,91 @@ def ohomepage1(request):
     return render(request, 'ownerApp/ownerHomePage.html', {'username': request.user.username})
 
 
-from django.shortcuts import render, redirect
-from .forms import PropertyForm
-from .models import Property
+# views.py
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
+@login_required
 def upload_property(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = PropertyForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('ownerapp:property_list')  # Redirect to the list of properties
+            property = form.save(commit=False)
+            property.owner = request.user  # Set owner to the logged-in user
+            property.save()
+            return redirect('ownerapp:property_list')
     else:
         form = PropertyForm()
-
-    # If the form is invalid, render the form with error messages
     return render(request, 'ownerApp/upload_property.html', {'form': form})
 
+
+
+from ownerapp.models import OwnerUser
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
+from .models import Property  # Ensure to import the Property model
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from .models import Property, OwnerUser # Adjust imports if necessary
+@login_required
 def property_list(request):
-    properties = Property.objects.all()
-    return render(request, 'ownerApp/property_list.html', {'properties': properties})
+    search_query = request.GET.get('search', '')
+    filter_option = request.GET.get('filter', '')
+
+    # Initialize variables
+    user_type = None
+    properties = Property.objects.none()  # Start with an empty queryset
+
+    # Identify the logged-in user type (owner or admin)
+    if request.user.username == 'admin' and authenticate(username='admin', password='admin'):
+        user_type = 'admin'
+        properties = Property.objects.all()  # Admin sees all properties
+
+    # Check if user is an owner
+    elif OwnerUser.objects.filter(user=request.user).exists():
+        user_type = 'owner'
+        properties = Property.objects.filter(owner=request.user)  # Only show properties uploaded by the owner
+
+    # Apply search filter (if any)
+    if search_query:
+        properties = properties.filter(
+            Q(title__icontains=search_query) |
+            Q(location__icontains=search_query) |
+            Q(description__icontains=search_query)
+        )
+
+    # Apply sorting based on filter option
+    if filter_option:
+        if filter_option == 'price_asc':
+            properties = properties.order_by('price')  # Price low to high
+        elif filter_option == 'price_desc':
+            properties = properties.order_by('-price')  # Price high to low
+
+    context = {
+        'properties': properties,
+        'user_type': user_type,  # Pass the user type to the template for navbar logic
+    }
+
+    return render(request, 'ownerApp/property_list.html', context)
+
+
 
 def property_detail(request, pk):
     property = Property.objects.get(pk=pk)
     return render(request, 'ownerApp/property_detail.html', {'property': property})
 
 # views.py
+# views.py
+from django.http import HttpResponseForbidden
+
 
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Property
 from .forms import PropertyForm
-
+@login_required
 def edit_property(request, pk):
     property = get_object_or_404(Property, pk=pk)
     if request.method == 'POST':
@@ -119,20 +174,19 @@ def edit_property(request, pk):
     return render(request, 'ownerApp/edit_property.html', {'form': form})
 
 
-from django.shortcuts import get_object_or_404, redirect, render
-from .models import Property
-from django.contrib import messages
 
-
+@login_required
 def delete_property(request, pk):
-    property = get_object_or_404(Property, pk=pk)
-    if request.method == 'POST':
+    property = get_object_or_404(Property, id=pk)
+
+    if property.owner != request.user:  # Ensure only the owner can delete
+        return HttpResponseForbidden("You are not allowed to delete this property.")
+
+    if request.method == "POST":
         property.delete()
-        messages.success(request, 'Property deleted successfully!')  # Add a success message if desired
         return redirect('ownerapp:property_list')
 
-    # For GET requests, you could render a confirmation modal or message if necessary
-    return render(request, 'ownerApp/property_list.html', {'property': property})
+    return render(request, 'confirm_delete.html', {'property': property})
 
 
 # views.py
@@ -140,7 +194,7 @@ def delete_property(request, pk):
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import OwnerProfile
-from .forms import OwnerProfileForm
+from .forms import OwnerProfileForm, PropertyForm
 
 # views.py
 from django.contrib.auth import update_session_auth_hash

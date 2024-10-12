@@ -8,10 +8,10 @@
     <nav>
         <ul>
             <li><a href="{% url 'ownerapp:ownerhomepage' %}">Home</a></li>
-            <li><a href="{% url 'ownerapp:property_list'  %}">Properties</a></li>
-            <li><a href="{% url 'ownerapp:about_us' %}">About Us</a></li>
-            <li><a href="{% url 'ownerapp:owner_profile' %}">Profile</a></li>
+            <li><a href="{% url 'ownerapp:property_list'  %}">My Properties</a></li>
             <li><a href="{% url 'ownerapp:upload_property'  %}">Upload Property</a></li> <!-- Changed to use hyphen -->
+            <li><a href="{% url 'ownerapp:owner_profile' %}">Profile</a></li>
+            <li><a href="{% url 'ownerapp:about_us' %}">About Us</a></li>
         </ul>
     </nav>
     <div class="auth-buttons">
@@ -22,7 +22,7 @@
                 <button type="submit" class="logout-btn">Logout</button>
             </form>
         {% else %}
-            <a href="{% url 'login_or_register' %}" class="login-btn">Login/Register</a>
+            <a href="{% url 'ownerapp:login_or_register' %}" class="login-btn">Login/Register</a>
         {% endif %}
     </div>
 </header>

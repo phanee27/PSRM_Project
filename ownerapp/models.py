@@ -12,6 +12,7 @@ class OwnerUser(models.Model):
 
 
 from django.db import models
+from django.contrib.auth.models import User
 
 class Property(models.Model):
     PROPERTY_TYPE_CHOICES = [
@@ -23,19 +24,20 @@ class Property(models.Model):
     image = models.ImageField(upload_to='property_images/')
     overview = models.TextField()
     location = models.CharField(max_length=200)
-    property_type = models.CharField(max_length=10, choices=PROPERTY_TYPE_CHOICES, default='Rent')  # Set a default value here
+    property_type = models.CharField(max_length=10, choices=PROPERTY_TYPE_CHOICES, default='Rent')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
-    size = models.PositiveIntegerField()  # in sq. ft.
+    size = models.PositiveIntegerField()  # Property size in square feet
     bedrooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
     parking = models.CharField(max_length=20)  # Available / Not Available
     year_built = models.PositiveIntegerField()
     flooring_type = models.CharField(max_length=100)
-    owner_name = models.CharField(max_length=100, default='Unknown Owner')
+    owner_name = models.CharField(max_length=100, default='Unknown Owner')  # You can also link this to the user model
     email = models.EmailField()
     phone = models.CharField(max_length=15)
     occupancy_status = models.CharField(max_length=20, default='Available')  # Available or Rented
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='properties', default=1)
 
     def __str__(self):
         return self.title

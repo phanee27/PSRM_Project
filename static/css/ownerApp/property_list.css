@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+
     background: linear-gradient(135deg, #faf0e6, #f5e9da); /* Very light beige gradient */
     margin: 0;
     padding: 20px;
@@ -270,18 +270,159 @@ h2 {
     background-color: #e86a4f; /* Darker red on hover */
 }
 
-#cancelDelete {
-    background-color: #ccc; /* Gray for cancel button */
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    margin-left: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+
+
+/* Search and Filter Container */
+.search-filter-container {
+    padding: 20px;
+    background-color: #ffffff; /* White background for search/filter */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border-radius: 8px;
+    margin: 20px; /* Spacing around the container */
 }
 
-#cancelDelete:hover {
-    background-color: #bbb; /* Darker gray on hover */
+/* Search Input Group */
+.search-input-group {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between elements */
 }
 
+/* Search Bar */
+.search-input-group input {
+    width: 60%;
+    padding: 12px 20px; /* Padding for the input field */
+    border: 2px solid #ccc; /* Border color */
+    border-radius: 8px; /* Rounded corners */
+    outline: none; /* No outline on focus */
+    font-size: 1em; /* Font size */
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+.search-input-group input:focus {
+    border-color: #7e3615; /* Light blue border on focus */
+}
+
+/* Dropdown Menu */
+.search-input-group select {
+    padding: 12px 20px; /* Padding for dropdown */
+    font-size: 1em; /* Font size */
+    background-color: #fff; /* White background */
+    border: 2px solid #ccc; /* Border color */
+    border-radius: 8px; /* Rounded corners */
+    outline: none; /* No outline on focus */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+.search-input-group select:hover,
+.search-input-group select:focus {
+    border-color: #7e3615; /*  brown border on hover */
+}
+
+/* Dropdown arrow icon */
+.search-input-group select::after {
+    content: '▼'; /* Custom dropdown arrow */
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #666;
+    pointer-events: none; /* Prevent interaction with the arrow */
+}
+
+/* Button Container */
+.button-container {
+    display: flex; /* Flexbox layout */
+    gap: 10px; /* Space between buttons */
+}
+
+/* Button Styles */
+button {
+    padding: 12px 20px; /* Padding for buttons */
+    font-size: 1em; /* Font size */
+    color: white; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 8px; /* Rounded corners */
+    border: none; /* No border */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+/* Apply Button */
+button.btn-light-brown {
+    background-color: #6c757d; /* Light grey */
+}
+
+button.btn-light-brown:hover {
+    background-color: #5a6268; /* Darker grey on hover */
+    transform: translateY(-2px); /* Lift effect */
+}
+
+/* Reset Button */
+.button-container a {
+    display: inline-block; /* Inline-block for link styling */
+    padding: 12px 20px; /* Padding for reset link */
+    font-size: 1em; /* Font size */
+    color: white; /* Text color */
+    background-color: #ff8164; /* Light red-orange */
+    text-decoration: none; /* No underline */
+    border-radius: 8px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+.button-container a:hover {
+    background-color: #e86a4f; /* Darker red-orange on hover */
+    transform: translateY(-2px); /* Lift effect */
+}
+
+/* Property List Section */
+.property-list {
+    padding: 20px; /* Padding around property list */
+}
+
+.property-card {
+    background-color: #fff; /* White background for cards */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Padding inside cards */
+    margin-bottom: 20px; /* Space between cards */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+
+/* Modal Styles (if necessary) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px; /* Place the modal content a bit down */
+}
+
+.modal-content {
+    background-color: #fefefe; /* White background */
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px; /* Padding */
+    border: 1px solid #888; /* Border */
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+    color: #aaa; /* Grey */
+    float: right; /* Float right */
+    font-size: 28px; /* Large */
+    font-weight: bold; /* Bold */
+}
+
+.close:hover,
+.close:focus {
+    color: black; /* Black on hover */
+    text-decoration: none; /* No underline */
+    cursor: pointer; /* Pointer cursor */
+}

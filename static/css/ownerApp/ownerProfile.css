@@ -1,6 +1,5 @@
-  /* Base Styling */
+/* Base Styling */
 body {
-    font-family: 'Georgia', serif;
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
@@ -9,10 +8,10 @@ body {
 /* Navbar (Top) Styles */
 .navbar {
     width: 100%;
-    background-color: #8B4513; /* Dark brown */
+    background-color: #db9c60; /* Warm golden color */
     padding: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    color: #F5DEB3; /* Light color for text */
+    color: #ffffff; /* White color for text */
     text-align: center;
     border: none; /* Ensure no border is applied */
     margin: 0;
@@ -31,8 +30,8 @@ body {
 /* Sidebar Styles */
 .sidebar {
     width: 250px;
-    background-color: #A0522D; /* Lighter brown */
-    color: #FAEBD7; /* Lighter color for text */
+    background-color: #db9c60; /* Keep it light */
+    color: #404040; /* Black color for text */
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     height: 100%; /* Full height */
@@ -42,16 +41,16 @@ body {
 
 .sidebar a {
     display: block;
-    color: #FAEBD7; /* Lighter color for text */
+    color: #404040; /* Black color for text */
     text-decoration: none;
     margin: 10px 0;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 35px;
     transition: background-color 0.3s;
 }
 
 .sidebar a:hover {
-    background-color: #8B4513; /* Original dark brown on hover */
+    background-color: #e5d3b3; /* Dark brown on hover */
 }
 
 /* Main Content Styles */
@@ -62,8 +61,8 @@ body {
 }
 
 .profile-header {
-    background-color: #A0522D; /* Lighter brown */
-    color: #FAEBD7; /* Lighter color for text */
+    background-color: #db9c60; /* Warm golden color */
+    color: #404040; /* Black color for text */
     padding: 20px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -136,12 +135,12 @@ body {
     }
 }
 
- .centered-heading {
-            text-align: center; /* Center the text */
-            margin-top: 20px; /* Optional: add some space above */
-        }
+.centered-heading {
+    text-align: center; /* Center the text */
+    margin-top: 20px; /* Optional: add some space above */
+}
 
- .profile-photo-container {
+.profile-photo-container {
     text-align: center; /* Center the image within the container */
 }
 
@@ -152,6 +151,7 @@ body {
     border-radius: 50%; /* Optional: makes the image circular */
     border: 2px solid #FFFFFF; /* Optional: adds a border to the image */
 }
+
 /* Clear and Tick Container */
 .clear-tick-container {
     display: flex;
@@ -159,4 +159,3 @@ body {
     justify-content: space-between;
     margin-top: 10px;
 }
-
