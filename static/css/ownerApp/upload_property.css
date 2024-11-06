@@ -1,66 +1,116 @@
-/* upload_property.css */
+/* General Styles */
 body {
-    background-color: #db9c60;  /* Lightened version of the card background */
-    margin: 0;  /* Remove default margin */
+
+    background-color: #F3F3F3; /* Light Gray background */
+    color: #4A4A4A;
+    margin: 0;
+    padding: 0;
 }
 
+/* Header/Navbar */
+.navbar {
+    background-color: #F3F3F3;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Container with Gradient Background */
 .upload-property-form {
-  max-width: 1200px;  /* Adjust based on your design */
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #fbede0;
-  border: 1px solid #d5d5d5;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Georgia', serif;
+    max-width: 100%; /* Full width */
+    width: 100%;
+    margin: 20px auto;
+    background: linear-gradient(135deg, #f8ede6, #faf5ee); /* Soft gradient background */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
-.form-container {
-  display: flex;  /* Create a flex container */
-  justify-content: space-between;  /* Space between columns */
-}
-
-.left-column,
-.right-column {
-  flex: 1;  /* Each column takes equal width */
-  margin-right: 20px;  /* Space between columns */
-}
-
-.left-column:last-child,bo
-.right-column:last-child {
-  margin-right: 0;  /* Remove margin for the last column */
-}
-
+/* Form Fields */
 .upload-property-form label {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 18px;
+    display: block;
+    font-weight: 500;
+    color: #4A4A4A;
+    margin-bottom: 8px;
 }
 
-.upload-property-form input,
+.upload-property-form input[type="text"],
+.upload-property-form input[type="email"], /* Email input styling */
+.upload-property-form input[type="file"],
+.upload-property-form input[type="number"],
 .upload-property-form select,
 .upload-property-form textarea {
-  width: 100%;
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #d5d5d5;
-  border-radius: 5px;
-  font-size: 18px;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    font-size: 1em;
+    color: #4A4A4A;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
+.upload-property-form input[type="text"]:focus,
+.upload-property-form input[type="email"]:focus, /* Focus style for email */
+.upload-property-form input[type="file"]:focus,
+.upload-property-form input[type="number"]:focus,
+.upload-property-form select:focus,
+.upload-property-form textarea:focus {
+    border-color: #7e3615; /* Warm Brown on focus */
+}
+
+/* Submit Button */
 .upload-property-form button[type="submit"] {
-  width: 100%;
-  height: 50px;
-  background-color: #976841;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    background-color: #7e3615; /* Warm Brown primary button */
+    color: #FFFFFF;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 
 .upload-property-form button[type="submit"]:hover {
-  background-color: #b38f5a;
+    background-color: #6a2e12; /* Darker Warm Brown on hover */
+    transform: scale(1.05);
 }
-=
+
+/* Secondary Button */
+.secondary-button {
+    background-color: #d9bba6; /* Soft Tan for secondary actions */
+    color: #4A4A4A;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1em;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.secondary-button:hover {
+    background-color: #c8a18d; /* Darker Soft Tan for hover */
+}
+
+/* Special Text and Accents */
+.upload-property-form .important-text {
+    color: #D2A854; /* Gold for important text */
+    font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .upload-property-form {
+        padding: 20px;
+    }
+
+    .upload-property-form button[type="submit"],
+    .secondary-button {
+        width: 100%;
+    }
+}

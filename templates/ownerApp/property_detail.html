@@ -6,48 +6,53 @@
     <title>{{ property.title }} - Property Details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
- <link rel="stylesheet" href="{% static 'css/ownerApp/property_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ownerApp/property_detail.css' %}">
     <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
 </head>
 <body>
- {% block body %}
+{% block body %}
    <!-- Include the navbar here -->
     {% include 'Navbar/ownerNavBar.html' %}
     <header class="header">
         <h1>{{ property.title }}</h1>
     </header>
 
-
     <div class="container">
-        <div class="carousel-section">
-            <img class="property-image" src="{{ property.image.url }}" alt="{{ property.title }}">
-        </div>
-
-        <section class="property-details">
-            <h2>Property Overview</h2>
-            <p><strong>Location:</strong> {{ property.location }}</p>
-            <p><strong>Price:</strong> ${{ property.price }}</p>
-            <p><strong>Description:</strong> {{ property.description }}</p>
-
-            <h2 class="mt-4">Features</h2>
-            <ul class="list-unstyled">
-                <li><strong>Size:</strong> {{ property.size }} sq. ft.</li>
-                <li><strong>Bedrooms:</strong> {{ property.bedrooms }}</li>
-                <li><strong>Bathrooms:</strong> {{ property.bathrooms }}</li>
-                <li><strong>Parking:</strong> {{ property.parking|yesno:"Available,Not Available" }}</li>
-                <li><strong>Year Built:</strong> {{ property.year_built }}</li>
-                <li><strong>Flooring Type:</strong> {{ property.flooring_type }}</li>
-            </ul>
-
-            <div class="property-contact mt-4">
-                <h3>Contact Information</h3>
-                <p><strong>Owner:</strong> {{ property.owner_name }}</p>
-                <p><strong>Email:</strong> {{ property.email }}</p>
-                <p><strong>Phone:</strong> {{ property.phone }}</p>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="carousel-section">
+                    <img class="property-image" src="{{ property.image.url }}" alt="{{ property.title }}">
+                </div>
             </div>
 
-            <a href="{% url 'ownerapp:property_list' %}" class="btn btn-light-brown mt-4">Back to Properties</a>
-        </section>
+            <div class="col-md-6">
+                <section class="property-details">
+                    <h2>Property Overview</h2>
+                    <p><strong>Location:</strong> {{ property.location }}</p>
+                    <p><strong>Price:</strong> ${{ property.price }}</p>
+                    <p><strong>Description:</strong> {{ property.description }}</p>
+
+                    <h2 class="mt-4">Features</h2>
+                    <ul class="list-unstyled">
+                        <li><strong>Size:</strong> {{ property.size }} sq. ft.</li>
+                        <li><strong>Bedrooms:</strong> {{ property.bedrooms }}</li>
+                        <li><strong>Bathrooms:</strong> {{ property.bathrooms }}</li>
+                        <li><strong>Parking:</strong> {{ property.parking|yesno:"Available,Not Available" }}</li>
+                        <li><strong>Year Built:</strong> {{ property.year_built }}</li>
+                        <li><strong>Flooring Type:</strong> {{ property.flooring_type }}</li>
+                    </ul>
+
+                    <div class="property-contact mt-4">
+                        <h3>Contact Information</h3>
+                        <p><strong>Owner:</strong> {{ property.owner_name }}</p>
+                        <p><strong>Email:</strong> {{ property.email }}</p>
+                        <p><strong>Phone:</strong> {{ property.phone }}</p>
+                    </div>
+
+                    <a href="{% url 'ownerapp:property_list' %}" class="btn-squircle mt-4">Back to Properties</a>
+                </section>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

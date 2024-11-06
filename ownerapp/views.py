@@ -19,7 +19,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import OwnerUser
+from .models import OwnerUser, RentalContract
+
 
 # Registration and Login View
 def login_or_register1(request):
@@ -160,6 +161,8 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Property
 from .forms import PropertyForm
+
+
 @login_required
 def edit_property(request, pk):
     property = get_object_or_404(Property, pk=pk)
@@ -240,3 +243,116 @@ def owner_profile(request):
 
 def about_us(request):
     return render(request,'ownerApp/about_us.html')
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from .forms import ContractForm
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
+def rental_contract(request):
+    if request.method == 'POST':
+        form = ContractForm(request.POST)
+        if form.is_valid():
+            # Get form data
+            agreement_type = form.cleaned_data['agreement_type']
+            tenant_name = form.cleaned_data['tenant_name']
+            tenant_email = form.cleaned_data['tenant_email']
+            tenant_address = form.cleaned_data['tenant_address']
+            owner_name = form.cleaned_data['owner_name']
+            owner_email = form.cleaned_data['owner_email']
+            owner_address = form.cleaned_data['owner_address']
+            property_address = form.cleaned_data['property_address']
+
+            # Rental-specific data
+            rental_amount = form.cleaned_data.get('rental_amount')
+            start_date = form.cleaned_data.get('start_date')
+            end_date = form.cleaned_data.get('end_date')
+            security_deposit = form.cleaned_data.get('security_deposit')
+
+            # Sale-specific data
+            sale_price = form.cleaned_data.get('sale_price')
+            sale_date = form.cleaned_data.get('sale_date')
+
+            # Prepare context based on the agreement type
+            context = {
+                'agreement_type': agreement_type,
+                'tenant_name': tenant_name,
+                'tenant_email': tenant_email,
+                'tenant_address': tenant_address,
+                'owner_name': owner_name,
+                'owner_email': owner_email,
+                'owner_address': owner_address,
+                'property_address': property_address,
+                'rental_amount': rental_amount,
+                'start_date': start_date,
+                'end_date': end_date,
+                'security_deposit': security_deposit,
+                'sale_price': sale_price,
+                'sale_date': sale_date,
+            }
+
+            # Load the appropriate template for the agreement
+            template = get_template('ownerApp/rental_contract_pdf.html')
+            html = template.render(context)
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{agreement_type}_contract.pdf"'
+            pisa_status = pisa.CreatePDF(html, dest=response)
+            if pisa_status.err:
+                return HttpResponse('We had some errors <pre>' + html + '</pre>')
+            return response
+    else:
+        form = ContractForm()
+
+    return render(request, 'ownerApp/rental_contract.html', {'form': form})
+
+# views.py
+from .forms import MaintenanceRequestForm, MessageForm
+def messages_view(request):
+    messages = Message.objects.filter(receiver=request.user) | Message.objects.filter(sender=request.user)
+    maintenance_requests = MaintenanceRequest.objects.filter(tenant=request.user) | MaintenanceRequest.objects.filter(property__owner=request.user)
+    message_form = MessageForm()
+    maintenance_form = MaintenanceRequestForm()
+
+    if request.method == 'POST':
+        if 'send_message' in request.POST:
+            message_form = MessageForm(request.POST)
+            if message_form.is_valid():
+                message_form.instance.sender = request.user
+                message_form.save()
+                return redirect('messages_view')
+
+        elif 'maintenance_request' in request.POST:
+            maintenance_form = MaintenanceRequestForm(request.POST)
+            if maintenance_form.is_valid():
+                maintenance_form.instance.tenant = request.user
+
+                # Set the property for the maintenance request
+                # If tenant is logged in, get the first property they are renting
+                if hasattr(request.user, 'tenantprofile'):  # Ensure the user is a tenant
+                    maintenance_form.instance.property = request.user.tenantprofile.rented_property
+                elif hasattr(request.user, 'ownerprofile'):  # If owner is logged in, assign property directly
+                    maintenance_form.instance.property = request.user.ownerprofile.owned_property.first()
+
+                maintenance_form.save()
+                return redirect('messages_view')
+
+    context = {
+        'messages': messages,
+        'maintenance_requests': maintenance_requests,
+        'message_form': message_form,
+        'maintenance_form': maintenance_form
+    }
+    return render(request, 'ownerApp/messages.html', context)
+
+# views.py
+from django.shortcuts import get_object_or_404
+from .models import Message, MaintenanceRequest
+
+def update_maintenance_status(request, request_id):
+    maintenance_request = get_object_or_404(MaintenanceRequest, id=request_id, property__owner=request.user)
+    if request.method == 'POST':
+        maintenance_request.progress_message = request.POST.get('progress_message', '')
+        maintenance_request.status = 'In Progress' if maintenance_request.status == 'Pending' else 'Resolved'
+        maintenance_request.save()
+    return redirect('messages_view')

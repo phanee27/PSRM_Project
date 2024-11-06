@@ -1,0 +1,111 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ agreement_type|capfirst }} Agreement</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 16px;
+            margin: 40px;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-decoration: underline;
+        }
+
+        h3 {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        p {
+            margin-bottom: 12px;
+        }
+
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .signature-block {
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #000;
+            margin-top: 20px;
+            padding-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+
+    {% if agreement_type == 'rental' %}
+    <h1>Residential Rental Agreement</h1>
+
+    <h3>Agreement Overview</h3>
+    <p>This Rental Agreement ("Agreement") is made on <strong>{{ start_date }}</strong>, between <strong>{{ owner_name }}</strong> ("Landlord") and <strong>{{ tenant_name }}</strong> ("Tenant"). This agreement outlines the rental terms for the property located at <strong>{{ property_address }}</strong>.</p>
+
+    <h3>Rental Payment Terms</h3>
+    <p>The Tenant agrees to pay <strong>${{ rental_amount }}</strong> per month. Rent is due by the 1st of each month. Late fees of $50 apply after the 5th day of each month.</p>
+
+    <h3>Lease Term</h3>
+    <p>The lease begins on <strong>{{ start_date }}</strong> and ends on <strong>{{ end_date }}</strong>. Extensions require written agreement from both parties.</p>
+
+    <h3>Security Deposit</h3>
+    <p>A security deposit of <strong>${{ security_deposit }}</strong> is required. This deposit will be refunded at lease end, subject to any deductions for damages.</p>
+
+    <h3>Maintenance Responsibilities</h3>
+    <p>The Tenant is responsible for keeping the property in good condition and notifying the Landlord of necessary repairs. The Landlord handles general maintenance, except repairs caused by Tenant's negligence.</p>
+
+    <h3>Governing Law</h3>
+    <p>This Agreement is governed by the laws of [State]. Any disputes shall be resolved in [City, State].</p>
+
+    {% elif agreement_type == 'sale' %}
+    <h1>Real Estate Sale Agreement</h1>
+
+    <h3>Agreement Overview</h3>
+    <p>This Sale Agreement ("Agreement") is entered on <strong>{{ sale_date }}</strong>, between <strong>{{ owner_name }}</strong> ("Seller") and <strong>{{ tenant_name }}</strong> ("Buyer"). The Seller agrees to sell the property located at <strong>{{ property_address }}</strong> under the following conditions:</p>
+
+    <h3>Sale Price and Payment Terms</h3>
+    <p>The sale price of the property is <strong>${{ sale_price }}</strong>. Payment terms require a deposit and the balance due on the closing date.</p>
+
+    <h3>Closing Date and Transfer</h3>
+    <p>The ownership will be transferred on <strong>{{ sale_date }}</strong>, upon full payment. The Buyer accepts the property "as is" at the time of sale.</p>
+
+    <h3>Title Transfer</h3>
+    <p>The Seller guarantees a clear title to the Buyer on the agreed closing date.</p>
+
+    <h3>Governing Law</h3>
+    <p>This Agreement is governed by the laws of State. Disputes will be resolved in City.</p>
+    {% endif %}
+
+    <div class="signature-section">
+        <div class="signature-block">
+            <p>Landlord/Seller</p>
+            <p class="signature-line">__________________________</p>
+            <p>Date: _____________</p>
+        </div>
+        <div class="signature-block">
+            <p>Tenant/Buyer</p>
+            <p class="signature-line">__________________________</p>
+            <p>Date: _____________</p>
+        </div>
+    </div>
+
+    {% endblock %}
+</body>
+</html>

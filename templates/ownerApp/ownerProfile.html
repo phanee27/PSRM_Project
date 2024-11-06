@@ -5,11 +5,12 @@
     <title>Owner Profile</title>
     <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
     <link rel="stylesheet" href="{% static 'css/ownerApp/ownerProfile.css' %}">
+
 </head>
 <body>
 {% block content %}
     <!-- Navbar at the top -->
-        {% include 'Navbar/ownerNavBar.html' %}
+    {% include 'Navbar/ownerNavBar.html' %}
 
     <!-- Wrapper to hold sidebar and main content -->
     <div class="wrapper">
@@ -76,6 +77,7 @@
         </div>
     </div>
 {% endblock %}
+
 <script>
     function showSection(sectionId) {
         // Hide all sections

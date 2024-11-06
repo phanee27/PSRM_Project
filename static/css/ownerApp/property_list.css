@@ -1,276 +1,169 @@
-/* property_list.css */
-
-* {
-    box-sizing: border-box; /* Ensure padding and border are included in width */
-}
-
+/* General styles for containers */
 body {
-
-    background: linear-gradient(135deg, #faf0e6, #f5e9da); /* Very light beige gradient */
+    font-family: Arial, sans-serif;
+    background-color: #F3F3F3;
+    color: #4A4A4A;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
+/* Container for the property list */
 .property-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start; /* Aligns cards to the left */
-    gap: 20px; /* Evenly space out the cards */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cards in a row */
+    gap: 20px;
+    padding: 20px;
+    justify-items: center;
 }
 
 .property-card {
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: calc(33.333% - 20px); /* Ensures 3 cards per row */
-    margin-bottom: 20px;
-    padding: 15px;
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-    height: 450px; /* Increased height to fit buttons */
-    flex-grow: 0; /* Prevents stretching */
-    flex-shrink: 0; /* Prevents shrinking */
+    background-color: #FFFFFF;
+    border-radius: 15px; /* Rounded corners for cards */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    max-width: 400px; /* Increased size of cards */
+    padding: 15px; /* Padding inside cards */
 }
-
-
-@media (max-width: 768px) {
-    .property-card {
-        width: calc(50% - 20px); /* 2 cards per row for medium screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .property-card {
-        width: 100%; /* 1 card per row for small screens */
-    }
-}
-
 
 .property-card:hover {
-    transform: translateY(-5px); /* Slight lift effect on hover */
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
+
+/* Property Image */
 .property-image {
     width: 100%;
-    height: 250px; /* Increased image height to fill more of the card */
-    object-fit: cover;
-    border-radius: 0; /* Remove rounded corners for sharp edges */
+    height: 55%; /* Set the height to half of the card */
+    object-fit: cover; /* Ensure the image covers the area without distorting the aspect ratio */
+    border-bottom: 3px solid #D9BBA6; /* Matching theme color */
 }
 
-h3 {
-    font-size: 1.5em; /* Size of property title */
-    margin: 10px 0; /* Space around title */
+
+/* Property Details */
+.property-card h3 {
+    color: #4A4A4A;
+    padding: 15px 20px;
+    margin: 0;
 }
 
-p {
-    font-size: 1em; /* Size of description */
-    color: #666; /* Slightly darker text for contrast */
+.property-card p {
+    padding: 0 20px 15px;
+    color: #6A6A6A;
 }
 
+.property-card strong {
+    color: #D2A854; /* Gold for emphasis */
+}
+
+/* Buttons */
 .view-details {
-    display: inline-block; /* Make the button block */
-    margin-top: 10px; /* Space above button */
-    padding: 10px 15px; /* Button padding */
-    background-color: #6c757d; /* Button background color */
-    color: white; /* Button text color */
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Rounded button */
-    transition: background-color 0.3s; /* Animation for hover */
+    background-color: #C9A769; /* Lightened primary button color */
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 30px; /* Squircle effect */
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.view-details:hover {
+    background-color: #B89459;
+    transform: scale(1.05);
 }
 
 .view-details-edit {
-    display: inline-block; /* Make the button block */
-    margin-top: 10px; /* Space above button */
-    padding: 10px 15px; /* Button padding */
-    background-color: #90e0ef; /* Button background color */
-    color: white; /* Button text color */
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Rounded button */
-    transition: background-color 0.3s; /* Animation for hover */
-}
-.delete-button {
-    display: inline-block; /* Make the button block */
-    margin-top: 10px; /* Space above button */
-    padding: 10px 15px; /* Button padding */
-    background-color: #ff8164; /* Button background color */
-    color: white; /* Button text color */
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Rounded button */
-    border: 2px solid transparent; /* Transparent border */
-    transition: background-color 0.3s, border-color 0.3s; /* Animation for hover */
-}
-
-.view-details:hover{
-    background-color: #5a6268; /* Darker button color on hover */
-}
-.view-details-edit:hover{
-    background-color: #48caef; /* Darker button color on hover */
-}
-.delete-button:hover {
-    background-color: #e86a4f; /* Darker shade on hover */
-
-}
-
-/* Modal container */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
-    justify-content: center;
-    align-items: center;
-    overflow: auto; /* Enable scroll if needed */
-}
-
-/* Modal content */
-.modal-content {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    width: 90%; /* Responsive width */
-    max-width: 500px; /* Max width for larger screens */
-    margin: auto;
-    position: relative;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Close button (X) */
-.close {
-    color: #333;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover, .close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Modal heading */
-.modal-content h2 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-/* Buttons inside the modal */
-.modal-content button {
-    background-color: #b08d57; /* Light brown */
-    color: white;
+    background-color: #A3A7B9; /* Lighter edit button color */
+    color: #FFFFFF;
     padding: 10px 20px;
-    margin: 10px 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
+    border-radius: 30px; /* Squircle effect */
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.view-details-edit:hover {
+    background-color: #929AA5;
+    transform: scale(1.05);
+}
+
+/* Apply Button */
+.apply-button {
+   background-color: #C9A769; /* Lightened primary button color */
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 30px; /* Squircle effect */
+    border:none;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.apply-button:hover {
+    background-color: #6a2e12; /* Darker shade on hover */
+    transform: scale(1.05);
+}
+
+/* Delete Button */
+.delete-button {
+    background-color: #E07777; /* Softer red for delete */
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: none; /* Removed border */
+    border-radius: 30px; /* Squircle effect */
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.delete-button:hover {
+    background-color: #D06666;
+    transform: scale(1.05);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Added z-index to ensure modal stays on top */
+}
+
+.modal-content {
+    background-color: #FFFFFF;
+    border-radius: 25px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    color: #4A4A4A;
+    margin-bottom: 20px;
+}
+
+.modal-content button {
+    background-color: #D07878; /* Lighter confirm button color */
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 30px; /* Squircle effect */
+    border:none;
+    margin-right: 10px;
     transition: background-color 0.3s ease;
 }
 
-/* Hover effect for buttons */
 .modal-content button:hover {
-    background-color: #946b3d; /* Darker brown on hover */
+    background-color: #B95C5C;
 }
-
-/* Animation for the modal */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Cancel button styling */
-#cancelDelete {
-    background-color: #cccccc; /* Grey for cancel */
-    color: #333;
-}
-
-#cancelDelete:hover {
-    background-color: #999999; /* Darker grey on hover */
-}
-
-/* Responsive design for smaller screens */
-@media (max-width: 480px) {
-    .modal-content {
-        width: 100%; /* Full width on small screens */
-        margin: 10px;
-    }
-}
-/* Modal Styles */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Can be adjusted based on screen size */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-/* Buttons in the modal */
-.btn-light-brown {
-    background-color: #ff8164; /* Red background color for the delete button */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-light-brown:hover {
-    background-color: #e86a4f; /* Darker red on hover */
-}
-
-
 
 /* Search and Filter Container */
 .search-filter-container {
@@ -332,97 +225,52 @@ h2 {
     pointer-events: none; /* Prevent interaction with the arrow */
 }
 
-/* Button Container */
-.button-container {
-    display: flex; /* Flexbox layout */
-    gap: 10px; /* Space between buttons */
-}
 
-/* Button Styles */
-button {
-    padding: 12px 20px; /* Padding for buttons */
-    font-size: 1em; /* Font size */
-    color: white; /* Text color */
-    cursor: pointer; /* Pointer cursor on hover */
-    border-radius: 8px; /* Rounded corners */
-    border: none; /* No border */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
-}
-
-/* Apply Button */
-button.btn-light-brown {
-    background-color: #6c757d; /* Light grey */
-}
-
-button.btn-light-brown:hover {
-    background-color: #5a6268; /* Darker grey on hover */
-    transform: translateY(-2px); /* Lift effect */
-}
 
 /* Reset Button */
-.button-container a {
-    display: inline-block; /* Inline-block for link styling */
-    padding: 12px 20px; /* Padding for reset link */
-    font-size: 1em; /* Font size */
-    color: white; /* Text color */
-    background-color: #ff8164; /* Light red-orange */
-    text-decoration: none; /* No underline */
-    border-radius: 8px; /* Rounded corners */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+.reset-button {
+    background-color: #E07777; /* Gray for reset */
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 30px; /* Squircle effect */
+    border:none;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s;
+    font-size: 1em;
 }
 
-.button-container a:hover {
-    background-color: #e86a4f; /* Darker red-orange on hover */
-    transform: translateY(-2px); /* Lift effect */
+.reset-button:hover {
+    background-color: #9C9C9C;
+    transform: scale(1.05);
 }
 
-/* Property List Section */
-.property-list {
-    padding: 20px; /* Padding around property list */
+/* For both buttons (Apply & Reset) - Styling for responsiveness */
+@media (max-width: 768px) {
+    .apply-button, .reset-button {
+        width: 100%; /* Ensure buttons stretch full width on mobile */
+        margin-bottom: 10px; /* Space between buttons */
+    }
 }
 
-.property-card {
-    background-color: #fff; /* White background for cards */
-    border-radius: 8px; /* Rounded corners */
-    padding: 15px; /* Padding inside cards */
-    margin-bottom: 20px; /* Space between cards */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    /* Adjust property cards to stack vertically on mobile */
+    .property-list {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row on mobile */
+    }
 
+    .property-card {
+        max-width: 100%;
+        margin: 10px 0;
+    }
 
-/* Modal Styles (if necessary) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    padding-top: 60px; /* Place the modal content a bit down */
-}
-
-.modal-content {
-    background-color: #fefefe; /* White background */
-    margin: 5% auto; /* 15% from the top and centered */
-    padding: 20px; /* Padding */
-    border: 1px solid #888; /* Border */
-    width: 80%; /* Could be more or less, depending on screen size */
-}
-
-.close {
-    color: #aaa; /* Grey */
-    float: right; /* Float right */
-    font-size: 28px; /* Large */
-    font-weight: bold; /* Bold */
-}
-
-.close:hover,
-.close:focus {
-    color: black; /* Black on hover */
-    text-decoration: none; /* No underline */
-    cursor: pointer; /* Pointer cursor */
+    /* Responsive buttons */
+    .view-details,
+    .view-details-edit,
+    .delete-button,
+    .reset-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }

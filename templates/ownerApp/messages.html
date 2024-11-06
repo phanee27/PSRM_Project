@@ -1,0 +1,105 @@
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="{% static 'css/adminApp/ownerhomepage.css' %}">
+     <link rel="stylesheet" href="{% static 'css/ownerApp/messages.css' %}">
+</head>
+<body>
+
+{% block content %}
+<!-- Navbar at the top -->
+{% include 'Navbar/ownerNavBar.html' %}
+
+<div class="messages-container">
+    <h2>Messages and Maintenance Requests</h2>
+
+    <!-- Dropdown to toggle between Messages and Maintenance Requests -->
+    <div class="toggle-dropdown">
+        <label for="toggleSelect">Select View:</label>
+        <select id="toggleSelect" class="toggle-dropdown-select">
+            <option value="messages">Messages</option>
+            <option value="maintenance">Maintenance Requests</option>
+        </select>
+    </div>
+
+    <!-- Messages Section -->
+    <div id="messagesSection" class="toggle-section">
+        <h2>Messages</h2>
+        <!-- Display Message Thread -->
+        <div class="messages-thread">
+            {% for message in messages %}
+                <div class="message">
+                    <p><strong>{{ message.sender.username }}:</strong> {{ message.content }}</p>
+                    <small>{{ message.timestamp }}</small>
+                </div>
+            {% empty %}
+                <p>No messages found.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Send a New Message -->
+        <h3>Send a Message</h3>
+        <form method="POST">
+            {% csrf_token %}
+            {{ message_form.as_p }}
+            <button type="submit" name="send_message">Send Message</button>
+        </form>
+    </div>
+
+    <!-- Maintenance Requests Section -->
+    <div id="maintenanceSection" class="toggle-section" style="display: none;">
+        <h2>Maintenance Requests</h2>
+        <div class="maintenance-requests">
+            {% for request in maintenance_requests %}
+                <div class="maintenance-request">
+                    <p><strong>Request by {{ request.tenant.username }}:</strong> {{ request.description }}</p>
+                    <small>{{ request.timestamp }} - Status: {{ request.status }}</small>
+
+                    {% if request.status != 'Resolved' %}
+                        <!-- Update progress (owner only) -->
+                        <form method="POST" action="{% url 'update_maintenance_status' request.id %}">
+                            {% csrf_token %}
+                            <textarea name="progress_message" placeholder="Add update...">{{ request.progress_message }}</textarea>
+                            <button type="submit">Update</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>No maintenance requests.</p>
+            {% endfor %}
+        </div>
+
+        <!-- New Maintenance Request (Tenant only) -->
+        <h3>Request Maintenance</h3>
+        <form method="POST">
+            {% csrf_token %}
+            {{ maintenance_form.as_p }}
+            <button type="submit" name="maintenance_request">Submit Request</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}
+
+<script>
+    // Toggle between Messages and Maintenance Requests based on dropdown selection
+    document.getElementById('toggleSelect').addEventListener('change', function() {
+        var selectedValue = this.value;
+        var messagesSection = document.getElementById('messagesSection');
+        var maintenanceSection = document.getElementById('maintenanceSection');
+
+        if (selectedValue === 'messages') {
+            messagesSection.style.display = 'block';
+            maintenanceSection.style.display = 'none';
+        } else {
+            messagesSection.style.display = 'none';
+            maintenanceSection.style.display = 'block';
+        }
+    });
+</script>
+
+</body>
+</html>

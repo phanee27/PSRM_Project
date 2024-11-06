@@ -12,9 +12,15 @@ path('ownerhomepage/',views.ownerhompage,name='ownerhomepage'),
     path('upload_property/', views.upload_property, name='upload_property'),
     path('property_list/', views.property_list, name='property_list'),
     path('properties/<int:pk>/', views.property_detail, name='property_detail'),
-path('properties/edit/<int:pk>/', views.edit_property, name='edit_property'),
-path('properties/delete/<int:pk>/', views.delete_property, name='delete_property'),
+
+    path('properties/edit/<int:pk>/', views.edit_property, name='edit_property'),
+    path('properties/delete/<int:pk>/', views.delete_property, name='delete_property'),
 
     path('owner_profile/', views.owner_profile, name='owner_profile'),
-    path('about_us',views.about_us,name='about_us'),
-]
+    path('about_us/',views.about_us,name='about_us'),
+    path('rental_contract/',views.rental_contract,name='rental_contract'),
+
+    path('messages_view',views.messages_view,name='messages_view'),
+path('maintenance/update/<int:request_id>/', views.update_maintenance_status, name='update_maintenance_status'),
+
+    ]
