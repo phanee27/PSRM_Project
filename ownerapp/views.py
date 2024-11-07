@@ -320,7 +320,7 @@ def messages_view(request):
             if message_form.is_valid():
                 message_form.instance.sender = request.user
                 message_form.save()
-                return redirect('messages_view')
+                return redirect('ownerapp:messages_view')
 
         elif 'maintenance_request' in request.POST:
             maintenance_form = MaintenanceRequestForm(request.POST)
@@ -335,7 +335,7 @@ def messages_view(request):
                     maintenance_form.instance.property = request.user.ownerprofile.owned_property.first()
 
                 maintenance_form.save()
-                return redirect('messages_view')
+                return redirect('ownerapp:messages_view')
 
     context = {
         'messages': messages,
@@ -355,4 +355,4 @@ def update_maintenance_status(request, request_id):
         maintenance_request.progress_message = request.POST.get('progress_message', '')
         maintenance_request.status = 'In Progress' if maintenance_request.status == 'Pending' else 'Resolved'
         maintenance_request.save()
-    return redirect('messages_view')
+    return redirect('ownerapp:messages_view')

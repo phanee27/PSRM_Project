@@ -1,0 +1,206 @@
+
+/* General Styles */
+body {
+
+    background-color: #f5f5f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #4A4A4A;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+.navbar a:hover {
+    background-color: #7e3615; /* Warm Brown */
+}
+
+/* Wrapper */
+.wrapper {
+    display: flex;
+    margin-top: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h3 {
+    font-size: 1.4em;
+    color: #4A4A4A;
+    margin-bottom: 15px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.sidebar a:hover {
+    background-color: #7e3615; /* Warm Brown */
+    color: #fff;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Header */
+.profile-header h2 {
+    font-size: 2em;
+    color: #4A4A4A;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.profile-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Label Styling */
+.profile-form label {
+    display: block;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #4A4A4A;
+    margin-bottom: 8px;
+}
+
+/* Input and Textarea Styling */
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="password"],
+.profile-form textarea,
+.profile-form select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+}
+
+.profile-form input[type="text"]:focus,
+.profile-form input[type="email"]:focus,
+.profile-form input[type="password"]:focus,
+.profile-form textarea:focus,
+.profile-form select:focus {
+    border-color: #7e3615; /* Warm Brown */
+    outline: none;
+}
+
+/* Textarea Specific Styling */
+.profile-form textarea {
+    resize: vertical;
+    height: 150px;
+}
+
+/* Button Styling */
+.profile-form button[type="submit"] {
+    background-color: #9E5721; /* Lighter Warm Brown */
+    color: #ffffff;
+    padding: 15px 25px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+    width: 100%;
+}
+
+.profile-form button[type="submit"]:hover {
+    background-color: #7e3615; /* Darker Warm Brown */
+    transform: scale(1.05);
+}
+
+.profile-form button[type="submit"]:focus {
+    outline: none;
+}
+
+/* Error Message Styling */
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.error ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.error li {
+    margin-bottom: 8px;
+}
+
+/* Profile Photo */
+.profile-photo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .profile-form {
+        padding: 20px;
+        margin: 20px;
+        width: 90%;
+    }
+
+    .profile-form button[type="submit"] {
+        font-size: 1em;
+    }
+
+    .profile-form label {
+        font-size: 1em;
+    }
+
+    .profile-form input[type="text"],
+    .profile-form input[type="email"],
+    .profile-form input[type="password"],
+    .profile-form textarea,
+    .profile-form select {
+        font-size: 1em;
+    }
+}

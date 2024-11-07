@@ -1,0 +1,95 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tenent Profile</title>
+    <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tenentApp/tenentProfile.css' %}">
+
+</head>
+<body>
+{% block content %}
+    <!-- Navbar at the top -->
+    {% include 'Navbar/tenentNavBar.html' %}
+
+    <!-- Wrapper to hold sidebar and main content -->
+    <div class="wrapper">
+        <!-- Sidebar on the left -->
+        <div class="sidebar">
+            <h3>Navigation</h3>
+            <a href="#" onclick="showSection('profile-section')">Profile</a>
+            <a href="#" onclick="showSection('change-password-section')">Change Password</a>
+        </div>
+
+        <!-- Main content area -->
+        <div class="main-content">
+            <div class="profile-header">
+                <h2>Tenent Profile</h2>
+            </div>
+
+            <div id="profile-section" class="profile-info">
+                <h3>Profile Photo</h3>
+                <div class="profile-photo-container">
+                    {% if profile.profile_image %}
+                        <img src="{{ profile.profile_image.url }}" alt="Profile Photo" class="profile-photo">
+                    {% else %}
+                        <p>No profile photo uploaded.</p>
+                    {% endif %}
+                </div>
+
+                <form class="profile-form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" name="update_profile">Update Profile</button>
+                </form>
+
+                {% if form.errors %}
+                <div class="error">
+                    <p>Please correct the following errors:</p>
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            <li>{{ field }}: {{ errors|join:', ' }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <div id="change-password-section" style="display: none;">
+                <h3 class="centered-heading">Change Password</h3>
+                <form class="profile-form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ password_form.as_p }}
+                    <button type="submit" name="change_password">Change Password</button>
+                </form>
+
+                {% if password_form.errors %}
+                <div class="error">
+                    <p>Please correct the following errors:</p>
+                    <ul>
+                        {% for field, errors in password_form.errors.items %}
+                            <li>{{ field }}: {{ errors|join:', ' }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+<script>
+    function showSection(sectionId) {
+        // Hide all sections
+        document.getElementById('profile-section').style.display = 'none';
+        document.getElementById('change-password-section').style.display = 'none';
+
+        // Show the selected section
+        document.getElementById(sectionId).style.display = 'block';
+    }
+
+    // Optionally show the profile section by default
+    showSection('profile-section');
+</script>
+</body>
+</html>
