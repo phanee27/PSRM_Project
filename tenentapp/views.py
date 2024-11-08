@@ -104,3 +104,45 @@ def property_list(request):
 def property_detail(request, pk):
     property = get_object_or_404(Property, pk=pk)
     return render(request, 'tenentApp/property_detail.html', {'property': property})
+
+
+
+from django.core.mail import EmailMessage
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.template.loader import render_to_string
+
+
+def contact_owner(request, property_id):
+    property = get_object_or_404(Property, id=property_id)
+
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+
+        # Render the email content using the HTML template
+        email_content = render_to_string('tenentApp/email_template.html', {
+            'name': name,
+            'email': email,
+            'message': message,
+            'property': property  # Pass the entire property object to the template
+        })
+
+        # Set up the email with HTML content
+        email_message = EmailMessage(
+            subject=f"Inquiry about {property.title}",
+            body=email_content,
+            from_email=email,
+            to=[property.email],
+        )
+        email_message.content_subtype = 'html'  # Set the email type to HTML
+
+        # Send the email
+        email_message.send()
+
+        # Show success message and redirect
+        messages.success(request, 'Your message has been sent to the property owner.')
+        return redirect('tenentapp:property_detail', property_id=property_id)
+
+    return render(request, 'contact_owner.html', {'property': property})
