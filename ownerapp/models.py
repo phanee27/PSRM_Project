@@ -22,7 +22,7 @@ class Property(models.Model):
 
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='property_images/')
-    overview = models.TextField()
+    overview = models.TextField(max_length=100)
     location = models.CharField(max_length=200)
     property_type = models.CharField(max_length=10, choices=PROPERTY_TYPE_CHOICES, default='Rent')
     price = models.DecimalField(max_digits=10, decimal_places=2)
