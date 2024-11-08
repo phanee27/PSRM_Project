@@ -21,6 +21,6 @@ path('ownerhomepage/',views.ownerhompage,name='ownerhomepage'),
     path('rental_contract/',views.rental_contract,name='rental_contract'),
 
     path('messages_view',views.messages_view,name='messages_view'),
-path('maintenance/update/<int:request_id>/', views.update_maintenance_status, name='update_maintenance_status'),
+    path('maintenance/update/<int:request_id>/', views.update_maintenance_status, name='update_maintenance_status'),
 
     ]
