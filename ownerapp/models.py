@@ -22,8 +22,11 @@ class Property(models.Model):
 
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='property_images/')
+    image_2 = models.ImageField(upload_to='property_images/', blank=True, null=True)
+    image_3 = models.ImageField(upload_to='property_images/', blank=True, null=True)
     overview = models.TextField(max_length=100)
     location = models.CharField(max_length=200)
+    address = models.TextField(max_length=300, blank=True, null=True)  # New address field
     property_type = models.CharField(max_length=10, choices=PROPERTY_TYPE_CHOICES, default='Rent')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
@@ -33,15 +36,14 @@ class Property(models.Model):
     parking = models.CharField(max_length=20)  # Available / Not Available
     year_built = models.PositiveIntegerField()
     flooring_type = models.CharField(max_length=100)
-    owner_name = models.CharField(max_length=100, default='Unknown Owner')  # You can also link this to the user model
+    owner_name = models.CharField(max_length=100, default='Unknown Owner')
     email = models.EmailField()
     phone = models.CharField(max_length=15)
-    occupancy_status = models.CharField(max_length=20, default='Available')  # Available or Rented
+    occupancy_status = models.CharField(max_length=20, default='Available')
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='properties', default=1)
 
     def __str__(self):
         return self.title
-
 
 # models.py
 

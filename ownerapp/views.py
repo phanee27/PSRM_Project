@@ -170,7 +170,6 @@ def edit_property(request, pk):
         form = PropertyForm(request.POST, request.FILES, instance=property)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Property updated successfully!')  # Success message
             return redirect('ownerapp:property_list')
     else:
         form = PropertyForm(instance=property)

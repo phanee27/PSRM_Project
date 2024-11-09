@@ -32,10 +32,7 @@ header h1 {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-     object-fit: cover; /* Crop image if it doesn't fit the container */
 }
-
-
 
 .property-contact {
     background-color: #fff;
@@ -143,4 +140,8 @@ a {
         width: 100%;
         text-align: center;
     }
+}
+
+.button-group a {
+    margin-right: 10px; /* Adjusts space between buttons */
 }
