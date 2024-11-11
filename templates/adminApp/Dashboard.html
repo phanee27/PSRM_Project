@@ -1,0 +1,109 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profiles</title>
+    <link rel="stylesheet" href="{% static 'css/adminApp/admin_Dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
+    <style>
+        /* Styling for the delete button */
+        .delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .delete:hover {
+            background-color: #c82333;
+        }
+
+        .button {
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+    </style>
+
+    <script>
+        // Confirm before deleting
+        function confirmDelete(event, url) {
+            event.preventDefault(); // Prevent default link action
+            if (confirm("Are you sure you want to delete this user?")) {
+                window.location.href = url; // If confirmed, go to the delete URL
+            }
+        }
+    </script>
+</head>
+<body>
+{% block body %}
+
+    {% include 'Navbar/adminNavBar.html' %}
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>User Profiles</h1>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content">
+        <!-- Owners Section -->
+        <div class="user-section">
+            <center> <h2>Owners</h2></center>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for owner in owners %}
+                    <tr>
+                        <td>{{ owner.username }}</td>
+                        <td>{{ owner.email }}</td>
+                        <td>
+                            <a class="button" href="{% url 'adminapp:edit_owner' owner.id %}">Edit</a>
+                            <a class="button delete" href="#" onclick="confirmDelete(event, '{% url 'adminapp:delete_owner' owner.id %}')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tenants Section -->
+        <div class="user-section">
+           <center><h2>Tenants</h2></center>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tenant in tenants %}
+                    <tr>
+                        <td>{{ tenant.username }}</td>
+                        <td>{{ tenant.email }}</td>
+                        <td>
+                            <a class="button" href="{% url 'adminapp:edit_tenant' tenant.id %}">Edit</a>
+                            <a class="button delete" href="#" onclick="confirmDelete(event, '{% url 'adminapp:delete_tenant' tenant.id %}')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}
+</body>
+</html>

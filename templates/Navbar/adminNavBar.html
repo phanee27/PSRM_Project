@@ -7,10 +7,10 @@
     </div>
     <nav>
         <ul>
-            <li><a href="#home">Home</a></li>
+            <li><a href="{% url 'adminapp:homepage' %}">Home</a></li>
             <li><a href="#properties">Find Properties</a></li>
             <li><a href="#upload-property">Upload Property</a></li><!-- Changed space to hyphen -->
-            <li><a href="#profile">User Profiles</a></li>
+            <li><a href="{% url 'adminapp:dashboard' %}">User Profiles</a></li>
         </ul>
     </nav>
     <div class="auth-buttons">

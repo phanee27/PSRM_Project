@@ -61,7 +61,7 @@
     <div class="property-card">
         <img src="{{ property.image.url }}" alt="{{ property.title }}" class="property-image">
         <h3>{{ property.title }}</h3>
-        <p>{{ property.overview }}</p>
+        <p>{{ property.overview|slice:":80" }}{% if property.overview|length > 80 %}...{% endif %}</p>
         <p><strong>Status:</strong> {{ property.occupancy_status }}</p>
         <p><strong>Price:</strong> {{ property.price }}</p>
         <a href="{% url 'ownerapp:property_detail' property.pk %}" class="view-details">View Details</a>
