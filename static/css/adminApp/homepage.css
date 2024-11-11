@@ -134,6 +134,21 @@ nav ul li a:hover {
 }
 
 /* Auth buttons (Login, Signup, Logout) */
+
+.logout-btn[type="submit"] {
+    padding: 10px 20px;
+    background-color: #7e3615; /* Warm Brown */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.logout-btn[type="submit"]:hover {
+    background-color: #8e451e;
+}
+
 .auth-buttons {
     display: flex;
     align-items: center;
@@ -425,5 +440,114 @@ footer p {
 
   .navbar-nav li {
     margin-bottom: 15px;
+  }
+}
+
+.btn-conteiner {
+  display: flex;
+  justify-content: center;
+  --color-text: #ffffff;
+  --color-background: #a0522d; /* Lighter brown color */
+  --color-outline: #a0522d80; /* Slightly transparent lighter brown outline */
+  --color-shadow: #00000080;
+}
+
+.btn-content {
+  display: flex;
+  align-items: center;
+  padding: 5px 15px; /* Reduced padding for a smaller button */
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 16px; /* Decreased font size for a smaller button */
+  color: var(--color-text);
+  background: var(--color-background);
+  transition: 0.3s ease; /* Smooth transition */
+  border-radius: 100px;
+  box-shadow: 0 0 0.2em 0 var(--color-background);
+  transform: scale(1); /* Initial scale */
+}
+
+.btn-content:hover, .btn-content:focus {
+  transition: 0.3s ease; /* Smooth transition */
+  -webkit-animation: btn-content 1s;
+  animation: btn-content 1s;
+  outline: 0.1em solid transparent;
+  outline-offset: 0.2em;
+  box-shadow: 0 0 0.4em 0 var(--color-background);
+  transform: scale(0.95); /* Shrink button slightly on hover */
+}
+
+.btn-content .icon-arrow {
+  transition: 0.5s;
+  margin-right: 10px; /* Adjusted margin for smaller size */
+  transform: scale(0.6); /* Initial smaller size for arrow */
+}
+
+.btn-content:hover .icon-arrow {
+  transition: 0.5s;
+  margin-right: 20px; /* Adjusted margin on hover */
+  transform: scale(1); /* Grow the arrow to full size on hover */
+}
+
+.icon-arrow {
+  width: 20px;
+  margin-left: 10px;
+  position: relative;
+  top: 6%;
+}
+
+/* SVG */
+#arrow-icon-one {
+  transition: 0.4s;
+  transform: translateX(-60%);
+}
+
+#arrow-icon-two {
+  transition: 0.5s;
+  transform: translateX(-30%);
+}
+
+.btn-content:hover #arrow-icon-three {
+  animation: color_anim 1s infinite 0.2s;
+}
+
+.btn-content:hover #arrow-icon-one {
+  transform: translateX(0%);
+  animation: color_anim 1s infinite 0.6s;
+}
+
+.btn-content:hover #arrow-icon-two {
+  transform: translateX(0%);
+  animation: color_anim 1s infinite 0.4s;
+}
+
+/* SVG animations */
+@keyframes color_anim {
+  0% {
+    fill: white;
+  }
+
+  50% {
+    fill: var(--color-background);
+  }
+
+  100% {
+    fill: white;
+  }
+}
+
+/* Button animations */
+@-webkit-keyframes btn-content {
+  0% {
+    outline: 0.2em solid var(--color-background);
+    outline-offset: 0;
+  }
+}
+
+@keyframes btn-content {
+  0% {
+    outline: 0.2em solid var(--color-background);
+    outline-offset: 0;
   }
 }

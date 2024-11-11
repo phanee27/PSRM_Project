@@ -1,0 +1,110 @@
+body {
+
+            background: linear-gradient(135deg, #f9f9f9 0%, #ececec 100%);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .about-section, .faq-section, .team-section {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 40px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #5b3e2b;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            margin-top: 40px;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        .faq {
+            margin-bottom: 20px;
+        }
+
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            color: #5b3e2b;
+            margin-bottom: 10px;
+        }
+
+        details {
+            margin-bottom: 15px;
+        }
+
+        /* Ensure there's only one arrow on the left side */
+        summary::marker {
+            content: "▼";
+            color: #5b3e2b;
+            margin-right: 10px;
+        }
+
+        details[open] summary::marker {
+            content: "▲";
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #5b3e2b;
+            color: #fff;
+            margin-top: 40px;
+        }
+
+        .team-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap; /* Ensures responsive behavior */
+        }
+
+        .team-member {
+            text-align: center;
+            max-width: 300px;
+            background: linear-gradient(135deg, #f9f9f9 0%, #ececec 100%);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .profile-pic {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #5b3e2b;
+            margin-top: 10px;
+        }
+
+        p {
+            color: #333;
+        }
