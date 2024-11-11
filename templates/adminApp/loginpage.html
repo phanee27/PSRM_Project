@@ -226,6 +226,15 @@
         <div class="form-container sign-up-container">
             <form method="POST" action="{% url 'adminapp:login_or_register' %}">
                 {% csrf_token %}
+                {% if messages %}
+                    <div class="login-messages">
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
                 <h1>Create Account</h1>
 <!--                <div class="social-container">-->
 <!--                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>-->
