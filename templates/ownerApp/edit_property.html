@@ -4,18 +4,424 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Property</title>
+    <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/ownerApp/upload_property.css' %}">
-        <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
-        <link rel="stylesheet" href="{% static 'css/ownerApp/edit_property.css' %}">
 </head>
+
 <body>
     {% block body %}
     {% include 'Navbar/ownerNavBar.html' %}
-    <form class="upload-property-form" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Update Property</button>
-    </form>
+
+    <div class="page-container">
+        <!-- Left Side - Progress Sidebar -->
+        <div class="progress-sidebar">
+            <div class="progress-header">
+                <h3><i class="fas fa-edit"></i> Edit Property</h3>
+                <p>Update property information below</p>
+            </div>
+            <div class="progress-steps">
+                <div class="step active">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Basic Information</span>
+                </div>
+                <div class="step">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Location Details</span>
+                </div>
+                <div class="step">
+                    <i class="fas fa-images"></i>
+                    <span>Property Images</span>
+                </div>
+                <div class="step">
+                    <i class="fas fa-list"></i>
+                    <span>Additional Details</span>
+                </div>
+            </div>
+            <div class="upload-tips">
+                <h4><i class="fas fa-lightbulb"></i> Editing Tips</h4>
+                <ul>
+                    <li>Update outdated information</li>
+                    <li>Verify location details</li>
+                    <li>Add new high-quality images</li>
+                    <li>Review all amenities</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Side - Form Container -->
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Edit Property Details</h2>
+                <p>Update the information below</p>
+            </div>
+
+            <form class="upload-property-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-sections">
+                    <!-- Basic Information Section -->
+                    <div class="form-section active" id="basic-info">
+                        <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                {{ form.title.label_tag }}
+                                {{ form.title }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.property_type.label_tag }}
+                                {{ form.property_type }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.price.label_tag }}
+                                {{ form.price }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.overview.label_tag }}
+                                {{ form.overview }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.description.label_tag }}
+                                {{ form.description }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Section -->
+                    <div class="form-section" id="location">
+                        <h3><i class="fas fa-map-marker-alt"></i> Location Details</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                {{ form.location.label_tag }}
+                                {{ form.location }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.address.label_tag }}
+                                {{ form.address }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Images Section -->
+                    <div class="form-section" id="images">
+                        <h3><i class="fas fa-images"></i> Property Images</h3>
+                        <div class="image-upload-container">
+                            <div class="form-group">
+                                {% if property.image %}
+                                    <img src="{{ property.image.url }}" alt="Current main image" class="current-image">
+                                {% endif %}
+                                {{ form.image.label_tag }}
+                                <div class="image-upload-box" id="main-image-upload">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Upload New Main Image</p>
+                                </div>
+                                {{ form.image }}
+                                <div class="image-preview" id="main-image-preview"></div>
+                            </div>
+
+                            <div class="form-group">
+                                {% if property.image_2 %}
+                                    <img src="{{ property.image_2.url }}" alt="Current image 2" class="current-image">
+                                {% endif %}
+                                {{ form.image_2.label_tag }}
+                                <div class="image-upload-box" id="image-2-upload">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Upload New Image 2</p>
+                                </div>
+                                {{ form.image_2 }}
+                                <div class="image-preview" id="image-2-preview"></div>
+                            </div>
+
+                            <div class="form-group">
+                                {% if property.image_3 %}
+                                    <img src="{{ property.image_3.url }}" alt="Current image 3" class="current-image">
+                                {% endif %}
+                                {{ form.image_3.label_tag }}
+                                <div class="image-upload-box" id="image-3-upload">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Upload New Image 3</p>
+                                </div>
+                                {{ form.image_3 }}
+                                <div class="image-preview" id="image-3-preview"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Details Section -->
+                    <div class="form-section" id="additional">
+                        <h3><i class="fas fa-list"></i> Additional Details</h3>
+                        <div class="form-grid">
+                            <div class="features-grid">
+                                <div class="form-group">
+                                    {{ form.bedrooms.label_tag }}
+                                    {{ form.bedrooms }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.bathrooms.label_tag }}
+                                    {{ form.bathrooms }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.size.label_tag }}
+                                    {{ form.size }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.parking.label_tag }}
+                                    {{ form.parking }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.year_built.label_tag }}
+                                    {{ form.year_built }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.flooring_type.label_tag }}
+                                    {{ form.flooring_type }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.owner_name.label_tag }}
+                                {{ form.owner_name }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.phone.label_tag }}
+                                {{ form.phone }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.occupancy_status.label_tag }}
+                                {{ form.occupancy_status }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="prev-btn" disabled><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button type="button" class="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+                    <button type="submit" class="submit-btn" style="display: none;">Update Property <i class="fas fa-check"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Form navigation elements
+    const sections = document.querySelectorAll('.form-section');
+    const steps = document.querySelectorAll('.progress-steps .step');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const submitBtn = document.querySelector('.submit-btn');
+    let currentSection = 0;
+
+    // Form navigation functions
+    function updateButtons() {
+        prevBtn.disabled = currentSection === 0;
+        if (currentSection === sections.length - 1) {
+            nextBtn.style.display = 'none';
+            submitBtn.style.display = 'block';
+        } else {
+            nextBtn.style.display = 'block';
+            submitBtn.style.display = 'none';
+        }
+    }
+
+    function updateSections() {
+        sections.forEach((section, index) => {
+            section.classList.remove('active');
+            steps[index].classList.remove('active');
+            if (index <= currentSection) {
+                steps[index].classList.add('active');
+            }
+        });
+        sections[currentSection].classList.add('active');
+        updateButtons();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Validate current section
+    function validateSection(sectionIndex) {
+        const currentSection = sections[sectionIndex];
+        const inputs = currentSection.querySelectorAll('input, select, textarea');
+        let isValid = true;
+
+        inputs.forEach(input => {
+            if (input.required && !input.value) {
+                isValid = false;
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        });
+
+        return isValid;
+    }
+
+    // Navigation event listeners
+    nextBtn.addEventListener('click', () => {
+        if (validateSection(currentSection) && currentSection < sections.length - 1) {
+            currentSection++;
+            updateSections();
+        } else {
+            alert('Please fill in all required fields before proceeding.');
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentSection > 0) {
+            currentSection--;
+            updateSections();
+        }
+    });
+
+    // Steps click navigation
+    steps.forEach((step, index) => {
+        step.addEventListener('click', () => {
+            if (index < currentSection || validateSection(currentSection)) {
+                currentSection = index;
+                updateSections();
+            }
+        });
+    });
+
+    // Image upload handling
+    function handleImageUpload(inputId, previewId, uploadBoxId) {
+        const input = document.getElementById(inputId);
+        const preview = document.getElementById(previewId);
+        const uploadBox = document.getElementById(uploadBoxId);
+
+        // Click to upload
+        uploadBox.addEventListener('click', () => input.click());
+
+        // File change handler
+        input.addEventListener('change', function(e) {
+            handleFiles(this.files);
+        });
+
+        // Drag and drop handlers
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.classList.add('dragover');
+        });
+
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.classList.remove('dragover');
+        });
+
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadBox.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        // Handle the selected files
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.style.backgroundImage = `url(${e.target.result})`;
+                        preview.style.display = 'block';
+                        uploadBox.style.display = 'none';
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Please upload an image file.');
+                }
+            }
+        }
+    }
+
+    // Initialize image upload handlers
+    handleImageUpload('id_image', 'main-image-preview', 'main-image-upload');
+    handleImageUpload('id_image_2', 'image-2-preview', 'image-2-upload');
+    handleImageUpload('id_image_3', 'image-3-preview', 'image-3-upload');
+
+    // Form submission handling
+    const form = document.querySelector('.upload-property-form');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Validate all sections before submission
+        let isValid = true;
+        sections.forEach((section, index) => {
+            if (!validateSection(index)) {
+                isValid = false;
+                currentSection = index;
+                updateSections();
+            }
+        });
+
+        if (isValid) {
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+
+            // Submit the form
+            this.submit();
+        } else {
+            alert('Please fill in all required fields before submitting.');
+        }
+    });
+
+    // Add error styling
+    document.querySelectorAll('.form-group').forEach(group => {
+        const input = group.querySelector('input, select, textarea');
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        group.appendChild(errorDiv);
+
+        input?.addEventListener('input', function() {
+            this.classList.remove('error');
+            errorDiv.textContent = '';
+        });
+    });
+
+    // Add these styles to your CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        .error {
+            border-color: var(--error-color) !important;
+        }
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.875rem;
+            margin-top: 5px;
+            min-height: 20px;
+        }
+        .dragover {
+            border-color: var(--primary-color);
+            background-color: rgba(225, 112, 85, 0.05);
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+    `;
+    document.head.appendChild(style);
+});
+    </script>
     {% endblock %}
 </body>
 </html>
