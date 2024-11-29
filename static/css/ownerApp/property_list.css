@@ -83,11 +83,11 @@ select:focus {
 /* Property List Grid */
 .property-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(5, 1fr); /* Changed to 5 columns */
     gap: 20px;
     padding: 20px;
     margin: 0 auto;
-    max-width: 1400px;
+    max-width: 1800px; /* Increased max-width to accommodate 5 cards */
 }
 
 /* Property Card */
@@ -99,6 +99,9 @@ select:focus {
     transition: var(--transition);
     display: flex;
     flex-direction: column;
+    max-width: 320px; /* Adjusted max-width for 5 cards */
+    width: 100%;
+    margin: 0 auto;
 }
 
 .property-card:hover:not(.no-hover) {
