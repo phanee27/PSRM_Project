@@ -3,6 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <title>Contract Form</title>
+    <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ownerApp/rental_contract.css' %}">
+</head>
+<body>
+{% block body %}
+    {% include 'Navbar/ownerNavBar.html' %}
+
+    <div class="contract-wrapper">
+        <h1 class="contract-title">Create {{ form.agreement_type.label }} Document</h1>
+
+        <form method="post" class="contract-form">
+            {% csrf_token %}
+
+            <div>
+                {{ form.agreement_type.label_tag }} {{ form.agreement_type }}
+            </div>
+
+            <div id="rental-fields" style="display: none;">
+                <h3>Rental Agreement Details</h3>
+                <div class="field-group">
+                    <div>
+                        {{ form.rental_amount.label_tag }} {{ form.rental_amount }}
+                    </div>
+                    <div>
+                        {{ form.security_deposit.label_tag }} {{ form.security_deposit }}
+                    </div>
+                </div>
+                <div class="field-group">
+                    <div>
+                        {{ form.start_date.label_tag }} {{ form.start_date }}
+                    </div>
+                    <div>
+                        {{ form.end_date.label_tag }} {{ form.end_date }}
+                    </div>
+                </div>
+            </div>
+
+            <div id="sale-fields" style="display: none;">
+                <h3>Sale Agreement Details</h3>
+                <div class="field-group">
+                    <div>
+                        {{ form.sale_price.label_tag }} {{ form.sale_price }}
+                    </div>
+                    <div>
+                        {{ form.sale_date.label_tag }} {{ form.sale_date }}
+                    </div>
+                </div>
+            </div>
+
+            <h3>Personal Details</h3>
+            <div class="field-group">
+                <div>
+                    {{ form.tenant_name.label_tag }} {{ form.tenant_name }}
+                </div>
+                <div>
+                    {{ form.tenant_email.label_tag }} {{ form.tenant_email }}
+                </div>
+            </div>
+
+            <div>
+                {{ form.tenant_address.label_tag }} {{ form.tenant_address }}
+            </div>
+
+            <div class="field-group">
+                <div>
+                    {{ form.owner_name.label_tag }} {{ form.owner_name }}
+                </div>
+                <div>
+                    {{ form.owner_email.label_tag }} {{ form.owner_email }}
+                </div>
+            </div>
+
+            <div>
+                {{ form.owner_address.label_tag }} {{ form.owner_address }}
+            </div>
+
+            <div>
+                {{ form.property_address.label_tag }} {{ form.property_address }}
+            </div>
+
+            <button type="submit">Generate PDF</button>
+        </form>
+    </div>
 
     <script>
         function toggleFields() {
@@ -20,51 +103,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            toggleFields(); // Set the correct visibility on page load
+            toggleFields();
             document.getElementById('id_agreement_type').addEventListener('change', toggleFields);
         });
     </script>
-    <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
-    <link rel="stylesheet" href="{% static 'css/ownerApp/rental_contract.css' %}">
-
-</head>
-<body>
-{% block body %}
-   <!-- Include the navbar here -->
-    {% include 'Navbar/ownerNavBar.html' %}
-
-    <h1>Create {{ form.agreement_type.label }} Document</h1>
-    <form method="post" class="contract-form">
-        {% csrf_token %}
-        <div>
-            {{ form.agreement_type.label_tag }} {{ form.agreement_type }}
-        </div>
-
-        <div id="rental-fields" style="display: none;">
-            <h3>Rental Agreement Details</h3>
-            {{ form.rental_amount.label_tag }} {{ form.rental_amount }}
-            {{ form.start_date.label_tag }} {{ form.start_date }}
-            {{ form.end_date.label_tag }} {{ form.end_date }}
-            {{ form.security_deposit.label_tag }} {{ form.security_deposit }}
-        </div>
-
-        <div id="sale-fields" style="display: none;">
-            <h3>Sale Agreement Details</h3>
-            {{ form.sale_price.label_tag }} {{ form.sale_price }}
-            {{ form.sale_date.label_tag }} {{ form.sale_date }}
-        </div>
-
-        <!-- Common fields -->
-        {{ form.tenant_name.label_tag }} {{ form.tenant_name }}
-        {{ form.tenant_email.label_tag }} {{ form.tenant_email }}
-        {{ form.tenant_address.label_tag }} {{ form.tenant_address }}
-        {{ form.owner_name.label_tag }} {{ form.owner_name }}
-        {{ form.owner_email.label_tag }} {{ form.owner_email }}
-        {{ form.owner_address.label_tag }} {{ form.owner_address }}
-        {{ form.property_address.label_tag }} {{ form.property_address }}
-
-        <button type="submit">Generate PDF</button>
-    </form>
 {% endblock %}
 </body>
 </html>
