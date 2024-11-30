@@ -70,16 +70,30 @@ class ContractForm(forms.Form):
     sale_price = forms.DecimalField(label='Sale Price', max_digits=10, decimal_places=2, required=False)
     sale_date = forms.DateField(label='Sale Date', widget=forms.SelectDateWidget, required=False)
 
-# forms.py
 from django import forms
-from .models import Message, MaintenanceRequest
+from ownerapp.models import Message
 
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['receiver', 'content']
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Write your message here...',
+                'rows': 4,
+            }),
+        }
 
-class MaintenanceRequestForm(forms.ModelForm):
+
+from django import forms
+from .models import Reply
+
+class ReplyForm(forms.ModelForm):
     class Meta:
-        model = MaintenanceRequest
-        fields = ['description']
+        model = Reply
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Type your reply...'}),
+        }
+

@@ -73,28 +73,29 @@ class RentalContract(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-from django.db import models
-from django.contrib.auth.models import User
-# models.py
+
 from django.db import models
 from django.contrib.auth.models import User
 
 class Message(models.Model):
-    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
-    receiver = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
+    tenant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    property = models.ForeignKey('Property', on_delete=models.CASCADE, null=True, blank=True)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'Message from {self.sender} to {self.receiver}'
-class MaintenanceRequest(models.Model):
-    property = models.ForeignKey('Property', on_delete=models.CASCADE, related_name='maintenance_requests')
-    tenant = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.TextField()
+        return f"Message from {self.tenant} to {self.owner} for {self.property.title}"
+
+
+class Reply(models.Model):
+    message = models.ForeignKey(Message, related_name='replies', on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # Owner replying
+    tenant = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='tenant_replies')  # Tenant replying
+    content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, choices=[('Pending', 'Pending'), ('In Progress', 'In Progress'), ('Resolved', 'Resolved')], default='Pending')
-    progress_message = models.TextField(blank=True, null=True)  # For owner responses
 
     def __str__(self):
-        return f'Maintenance Request by {self.tenant} for {self.property}'
+        return f"Reply from {'Owner' if self.owner else 'Tenant'} to {self.message.tenant.username if self.tenant else self.message.owner.username}"
+
+

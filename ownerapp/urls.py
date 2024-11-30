@@ -20,7 +20,9 @@ path('ownerhomepage/',views.ownerhompage,name='ownerhomepage'),
     path('about_us/',views.about_us,name='about_us'),
     path('rental_contract/',views.rental_contract,name='rental_contract'),
 
-    path('messages_view',views.messages_view,name='messages_view'),
-    path('maintenance/update/<int:request_id>/', views.update_maintenance_status, name='update_maintenance_status'),
+
+    path('messages/', views.owner_messages, name='owner_messages'),
+    path('messages/reply/<int:message_id>/', views.reply_to_tenant, name='reply_to_tenant'),
+
 
     ]

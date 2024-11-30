@@ -305,53 +305,29 @@ def rental_contract(request):
 
     return render(request, 'ownerApp/rental_contract.html', {'form': form})
 
-# views.py
-from .forms import MaintenanceRequestForm, MessageForm
-def messages_view(request):
-    messages = Message.objects.filter(receiver=request.user) | Message.objects.filter(sender=request.user)
-    maintenance_requests = MaintenanceRequest.objects.filter(tenant=request.user) | MaintenanceRequest.objects.filter(property__owner=request.user)
-    message_form = MessageForm()
-    maintenance_form = MaintenanceRequestForm()
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from ownerapp.models import Message, Reply
+from ownerapp.forms import ReplyForm
+
+@login_required
+def owner_messages(request):
+    messages = Message.objects.filter(owner=request.user).order_by('-timestamp')
+    return render(request, 'ownerapp/messages.html', {'messages': messages})
+
+@login_required
+def reply_to_tenant(request, message_id):
+    message = get_object_or_404(Message, id=message_id, owner=request.user)
 
     if request.method == 'POST':
-        if 'send_message' in request.POST:
-            message_form = MessageForm(request.POST)
-            if message_form.is_valid():
-                message_form.instance.sender = request.user
-                message_form.save()
-                return redirect('ownerapp:messages_view')
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.message = message
+            reply.owner = request.user  # Owner replying
+            reply.save()
+            return redirect('ownerapp:owner_messages')
+    else:
+        form = ReplyForm()
 
-        elif 'maintenance_request' in request.POST:
-            maintenance_form = MaintenanceRequestForm(request.POST)
-            if maintenance_form.is_valid():
-                maintenance_form.instance.tenant = request.user
-
-                # Set the property for the maintenance request
-                # If tenant is logged in, get the first property they are renting
-                if hasattr(request.user, 'tenantprofile'):  # Ensure the user is a tenant
-                    maintenance_form.instance.property = request.user.tenantprofile.rented_property
-                elif hasattr(request.user, 'ownerprofile'):  # If owner is logged in, assign property directly
-                    maintenance_form.instance.property = request.user.ownerprofile.owned_property.first()
-
-                maintenance_form.save()
-                return redirect('ownerapp:messages_view')
-
-    context = {
-        'messages': messages,
-        'maintenance_requests': maintenance_requests,
-        'message_form': message_form,
-        'maintenance_form': maintenance_form
-    }
-    return render(request, 'ownerApp/messages.html', context)
-
-# views.py
-from django.shortcuts import get_object_or_404
-from .models import Message, MaintenanceRequest
-
-def update_maintenance_status(request, request_id):
-    maintenance_request = get_object_or_404(MaintenanceRequest, id=request_id, property__owner=request.user)
-    if request.method == 'POST':
-        maintenance_request.progress_message = request.POST.get('progress_message', '')
-        maintenance_request.status = 'In Progress' if maintenance_request.status == 'Pending' else 'Resolved'
-        maintenance_request.save()
-    return redirect('ownerapp:messages_view')
+    return render(request, 'ownerapp/reply_message.html', {'form': form, 'message': message})

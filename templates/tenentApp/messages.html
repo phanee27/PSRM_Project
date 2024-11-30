@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owner Messages</title>
+    <title>Tenant Messages</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
     <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
 </head>
 <body>
-    {% include 'Navbar/ownerNavBar.html' %}
+    {% include 'Navbar/tenentNavBar.html' %}
 
     <div class="container mt-5">
-        <h1 class="mb-4">Messages from Tenants</h1>
+        <h1 class="mb-4">Messages from Owners</h1>
 
-        {% if messages %}
+        {% if tenant_messages %}
             <div class="list-group">
-                {% for message in messages %}
+                {% for message in tenant_messages %}
                     <div class="list-group-item">
-                        <h5 class="mb-1">From: {{ message.tenant.username }}</h5>
+                        <h5 class="mb-1">From: {{ message.owner.username }}</h5>
                         <p class="mb-1"><strong>Property:</strong> {{ message.property.title }}</p>
                         <p class="mb-1"><strong>Location:</strong> {{ message.property.location }}</p>
                         <p><strong>Message:</strong> {{ message.content }}</p>
@@ -29,13 +29,13 @@
                             <ul>
                                 {% for reply in message.replies.all %}
                                     <li>
-                                        <strong>
-                                            {% if reply.owner %}
-                                                {{ reply.owner.username }}
-                                            {% else %}
-                                                {{ reply.tenant.username }}
-                                            {% endif %}
-                                        </strong>:
+                                        {% if reply.owner %}
+                                            <strong>{{ reply.owner.username }}</strong>:
+                                        {% elif reply.tenant %}
+                                            <strong>{{ reply.tenant.username }}</strong>:
+                                        {% else %}
+                                            <strong>Anonymous</strong>:
+                                        {% endif %}
                                         {{ reply.content }}
                                         <small>({{ reply.timestamp }})</small>
                                     </li>
@@ -50,7 +50,7 @@
 
                         <!-- Reply Form (hidden by default) -->
                         <div id="replyForm{{ message.id }}" class="collapse mt-3">
-                            <form action="{% url 'ownerapp:reply_to_tenant' message.id %}" method="post">
+                            <form action="{% url 'tenentapp:reply_to_owner' message.id %}" method="post">
                                 {% csrf_token %}
                                 <div class="form-group">
                                     <textarea class="form-control" name="content" rows="4" placeholder="Type your reply..."></textarea>
@@ -67,7 +67,7 @@
             </div>
         {% endif %}
 
-        <a href="{% url 'ownerapp:ownerhomepage' %}" class="btn btn-primary mt-4">Back to Dashboard</a>
+        <a href="{% url 'tenentapp:tenenthomepage' %}" class="btn btn-primary mt-4">Back to Dashboard</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

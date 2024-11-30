@@ -59,8 +59,12 @@
                     <p><strong>Phone:</strong> {{ property.phone }}</p>
                 </section>
 
-                <a href="{% url 'tenentapp:property_list' %}" class="btn-squircle mt-4">Back to Properties</a>
-                 <a href="mailto:{{ property.email }}?subject=Inquiry%20about%20{{ property.title }}" class="btn-squircle ml-2">Contact Owner</a>
+             <div class="action-buttons mt-4">
+                <a href="{% url 'tenentapp:property_list' %}" class="btn-squircle">Back to Properties</a>
+                <a href="mailto:{{ property.email }}?subject=Inquiry%20about%20{{ property.title }}" class="btn-squircle ml-2">Contact Owner</a>
+                <a href="{% url 'tenentapp:send_message' property.id %}" class="btn-squircle ml-2">Send Message</a>
+
+             </div>
             </div>
         </div>
 

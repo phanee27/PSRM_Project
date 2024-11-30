@@ -7,3 +7,4 @@ class TenentProfileForm(forms.ModelForm):
     class Meta:
         model = TenentProfile
         fields = ['profile_image', 'phone_number', 'address']
+
