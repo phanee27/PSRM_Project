@@ -197,3 +197,35 @@ def delete_tenant(request, tenant_id):
     tenant.delete()
 
     return redirect('adminapp:dashboard')
+
+
+
+from django.shortcuts import render
+from ownerapp.models import Message, Reply, OwnerUser  # Assuming OwnerUser is the correct model
+from tenentapp.models import TenentUser
+
+def admin_messages(request):
+    messages = Message.objects.all()  # Fetching all messages
+    replies = Reply.objects.all()  # Fetching all replies
+    owners = OwnerUser.objects.all()  # Fetching all owners for filtering
+    tenants = TenentUser.objects.all()  # Fetching all tenants
+    selected_owner = None
+
+    if request.GET.get('owner_id'):
+        try:
+            # Fetch the owner using the OwnerUser model
+            selected_owner = OwnerUser.objects.get(id=request.GET['owner_id'])
+            # Now filter replies by the related User instance (OwnerUser.user)
+            replies = replies.filter(owner=selected_owner.user)  # Use selected_owner.user
+        except OwnerUser.DoesNotExist:
+            selected_owner = None
+
+    context = {
+        'messages': messages,
+        'replies': replies,
+        'owners': owners,
+        'tenants': tenants,
+        'selected_owner': selected_owner
+    }
+
+    return render(request, 'adminapp/messages.html', context)

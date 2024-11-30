@@ -1,0 +1,47 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reply to Owner</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
+</head>
+<body>
+    {% include 'Navbar/tenantNavBar.html' %}
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Reply to Message</h1>
+        
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Message from: {{ message.owner.username }}</h5>
+                <p><strong>Property:</strong> {{ message.property.title }}</p>
+                <p><strong>Location:</strong> {{ message.property.location }}</p>
+                <p><strong>Message:</strong> {{ message.content }}</p>
+                <small>Sent on: {{ message.timestamp }}</small>
+
+                <hr>
+
+                <h4>Your Reply:</h4>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="content">Reply</label>
+                        <textarea class="form-control" name="content" rows="4" placeholder="Type your reply here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">Send Reply</button>
+                </form>
+
+                <a href="{% url 'tenantapp:tenant_messages' %}" class="btn btn-primary mt-4">Back to Messages</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

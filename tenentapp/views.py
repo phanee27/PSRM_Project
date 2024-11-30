@@ -146,3 +146,70 @@ def contact_owner(request, property_id):
         return redirect('tenentapp:property_detail', property_id=property_id)
 
     return render(request, 'contact_owner.html', {'property': property})
+
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from ownerapp.models import Message, Reply
+from ownerapp.forms import MessageForm, ReplyForm
+
+
+
+@login_required
+def tenant_messages(request):
+    # Fetch messages sent by the tenant and associated replies
+    tenant_messages = Message.objects.filter(tenant=request.user)  # assuming tenant is logged in
+    return render(request, 'tenentapp/messages.html', {'tenant_messages': tenant_messages})
+
+
+@login_required
+def reply_to_owner(request, message_id):
+    # Get the message object
+    message = get_object_or_404(Message, id=message_id)
+
+    # Handle the reply submission
+    if request.method == 'POST':
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.message = message
+            reply.tenant = request.user  # The logged-in tenant
+            reply.save()
+
+            messages.success(request, "Your reply has been sent.")
+            return redirect('tenentapp:tenant_messages')  # Redirect to message listing page
+    else:
+        form = ReplyForm()
+
+    return render(request, 'tenentapp/reply_form.html', {'form': form, 'message': message})
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from ownerapp.forms import MessageForm
+from ownerapp.models import Property, Message
+
+@login_required
+def send_message(request, property_id):
+    property = get_object_or_404(Property, id=property_id)
+
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            # Create the message
+            message = form.save(commit=False)
+            message.tenant = request.user  # Set the tenant as the logged-in user
+            message.owner = property.owner  # Set the owner of the property
+            message.property = property  # Set the related property
+            message.save()  # Save the message to the database
+            messages.success(request, "Your message has been sent.")
+            return redirect('tenentapp:property_detail', pk=property.id)  # Ensure you have this URL pattern
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = MessageForm()
+
+    return render(request, 'tenentapp/send_message.html', {'form': form, 'property': property})

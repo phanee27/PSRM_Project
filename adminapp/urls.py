@@ -14,4 +14,5 @@ urlpatterns = [
     path('edit-tenant/<int:tenant_id>/', views.edit_tenant, name='edit_tenant'),
     path('delete_owner/<int:owner_id>/', views.delete_owner, name='delete_owner'),
     path('delete_tenant/<int:tenant_id>/', views.delete_tenant, name='delete_tenant'),
+    path('admin/messages/', views.admin_messages, name='admin_messages'),
 ]
