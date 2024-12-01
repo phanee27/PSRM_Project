@@ -79,17 +79,154 @@
 {% endblock %}
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to handle section transitions with animations
     function showSection(sectionId) {
-        // Hide all sections
-        document.getElementById('profile-section').style.display = 'none';
-        document.getElementById('change-password-section').style.display = 'none';
+        const sections = ['profile-section', 'change-password-section'];
+        const links = document.querySelectorAll('.sidebar a');
 
-        // Show the selected section
-        document.getElementById(sectionId).style.display = 'block';
+        // Hide all sections with fade out
+        sections.forEach(section => {
+            const element = document.getElementById(section);
+            if (element) {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        // Show selected section with fade in
+        setTimeout(() => {
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+                // Force reflow
+                selectedSection.offsetHeight;
+                selectedSection.style.opacity = '1';
+                selectedSection.style.transform = 'translateY(0)';
+            }
+        }, 300);
+
+        // Update active state in sidebar
+        links.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('onclick').includes(sectionId)) {
+                link.classList.add('active');
+            }
+        });
     }
 
-    // Optionally show the profile section by default
+    // File input preview functionality
+    const fileInput = document.querySelector('input[type="file"]');
+    const profilePhoto = document.querySelector('.profile-photo');
+
+    if (fileInput && profilePhoto) {
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profilePhoto.style.opacity = '0';
+                    setTimeout(() => {
+                        profilePhoto.src = e.target.result;
+                        profilePhoto.style.opacity = '1';
+                    }, 300);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Form validation
+    const forms = document.querySelectorAll('.profile-form');
+    forms.forEach(form => {
+        const inputs = form.querySelectorAll('input[required]');
+
+        inputs.forEach(input => {
+            // Add validation styles on blur
+            input.addEventListener('blur', function() {
+                validateInput(this);
+            });
+
+            // Remove error styles on focus
+            input.addEventListener('focus', function() {
+                this.classList.remove('error');
+                const errorMessage = this.parentElement.querySelector('.error-message');
+                if (errorMessage) {
+                    errorMessage.remove();
+                }
+            });
+        });
+
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!validateInput(input)) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                // Animate the submit button to indicate error
+                const submitButton = form.querySelector('button[type="submit"]');
+                submitButton.classList.add('error-shake');
+                setTimeout(() => {
+                    submitButton.classList.remove('error-shake');
+                }, 500);
+            } else {
+                // Add loading state to button
+                const submitButton = form.querySelector('button[type="submit"]');
+                submitButton.innerHTML = '<span class="spinner"></span> Updating...';
+                submitButton.disabled = true;
+            }
+        });
+    });
+
+    function validateInput(input) {
+        const value = input.value.trim();
+        const errorMessage = input.parentElement.querySelector('.error-message');
+
+        if (!value) {
+            input.classList.add('error');
+            if (!errorMessage) {
+                const error = document.createElement('span');
+                error.className = 'error-message';
+                error.textContent = 'This field is required';
+                input.parentElement.appendChild(error);
+            }
+            return false;
+        }
+
+        // Email validation
+        if (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            input.classList.add('error');
+            if (!errorMessage) {
+                const error = document.createElement('span');
+                error.className = 'error-message';
+                error.textContent = 'Please enter a valid email address';
+                input.parentElement.appendChild(error);
+            }
+            return false;
+        }
+
+        input.classList.remove('error');
+        if (errorMessage) {
+            errorMessage.remove();
+        }
+        return true;
+    }
+
+    // Initialize the profile section by default
     showSection('profile-section');
+
+    // Make showSection available globally
+    window.showSection = showSection;
+});
+
 </script>
 </body>
 </html>

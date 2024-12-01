@@ -1,162 +1,239 @@
-/* General styling for the messages and maintenance page */
+/* Messages Page Styles */
 .messages-container {
-    font-family: Arial, sans-serif;
     max-width: 1200px;
+    margin: 100px auto 50px;
+    padding: 0 20px;
+}
+
+.messages-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.messages-header h1 {
+    color: #d63031;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.header-line {
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(45deg, #e17055, #d63031);
     margin: 0 auto;
-    padding: 30px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
 }
 
-/* Title for the page */
-.messages-container h2 {
-    color: #333;
-    font-size: 2em;
-    margin-bottom: 20px;
+/* Message Card Styles */
+.message-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease;
 }
 
-/* Dropdown styling */
-.toggle-dropdown {
-    margin-bottom: 20px;
+.message-card:hover {
+    transform: translateY(-5px);
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-info {
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
-.toggle-dropdown label {
-    font-weight: bold;
-    color: #4A4A4A; /* Dark Gray */
-    margin-right: 10px;
+.user-info i {
+    font-size: 24px;
+    color: #e17055;
 }
 
-.toggle-dropdown-select {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    background-color: #ffffff;
-    font-size: 1em;
-    cursor: pointer;
+.user-info h5 {
+    margin: 0;
+    color: #2d3436;
+    font-weight: 600;
 }
 
-.toggle-dropdown-select:focus {
-    outline: none;
-    border-color: #7e3615; /* Warm Brown */
+.timestamp {
+    color: #636e72;
+    font-size: 0.9rem;
 }
 
-/* Section styling for Messages and Maintenance Requests */
-.toggle-section {
-    display: none;
+.timestamp i {
+    margin-right: 5px;
 }
 
-#messagesSection {
-    display: block; /* Show messages by default */
+/* Property Info Styles */
+.property-info {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
 }
 
-.messages-thread {
+.property-info div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.property-info i {
+    color: #e17055;
+}
+
+/* Message Content Styles */
+.message-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Replies Section Styles */
+.replies-section {
     margin-top: 20px;
 }
 
-.message {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
+.replies-section h6 {
+    color: #2d3436;
     margin-bottom: 15px;
-    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.message strong {
-    color: #333;
+.replies-list {
+    padding-left: 20px;
 }
 
-.message small {
-    display: block;
-    margin-top: 5px;
-    font-size: 0.85em;
-    color: #666;
-}
-
-/* Styling for the 'Send Message' form */
-form button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #7e3615; /* Warm Brown */
-    color: white;
-    border: none;
-    border-radius: 50px; /* Rounded buttons */
-    cursor: pointer;
-    font-size: 1em;
-    margin-top: 10px;
-}
-
-form button[type="submit"]:hover {
-    background-color: #8e451e; /* Slightly darker on hover */
-}
-
-/* Maintenance Requests Section Styling */
-.maintenance-requests {
-    margin-top: 20px;
-}
-
-.maintenance-request {
-    background-color: #fff;
-    border: 1px solid #ddd;
+.reply-item {
+    background: #f8f9fa;
     padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-}
-
-.maintenance-request strong {
-    color: #333;
-}
-
-.maintenance-request small {
-    display: block;
-    margin-top: 5px;
-    font-size: 0.85em;
-    color: #666;
-}
-
-textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    font-size: 1em;
-    margin-top: 10px;
+    border-radius: 10px;
     margin-bottom: 10px;
+}
+
+.reply-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+/* Reply Form Styles */
+.reply-section {
+    margin-top: 20px;
+}
+
+.reply-btn {
+    background: transparent;
+    border: 2px solid #e17055;
+    color: #e17055;
+    padding: 8px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.reply-btn:hover {
+    background: #e17055;
+    color: #fff;
+}
+
+.reply-form {
+    display: none;
+    margin-top: 15px;
+}
+
+.reply-form.active {
+    display: block;
+}
+
+.reply-form textarea {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
     resize: vertical;
 }
 
-textarea:focus {
-    outline: none;
-    border-color: #7e3615; /* Warm Brown */
-}
-
-/* Styling for 'Request Maintenance' form */
-.maintenance-request form button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #7e3615; /* Warm Brown */
-    color: white;
+.send-btn {
+    background: linear-gradient(45deg, #e17055, #d63031);
+    color: #fff;
     border: none;
-    border-radius: 50px;
+    padding: 10px 25px;
+    border-radius: 25px;
     cursor: pointer;
-    font-size: 1em;
+    transition: transform 0.3s ease;
 }
 
-.maintenance-request form button[type="submit"]:hover {
-    background-color: #8e451e;
+.send-btn:hover {
+    transform: translateY(-2px);
 }
 
-/* Responsive Design: Stacking sections on smaller screens */
-@media screen and (max-width: 768px) {
+/* No Messages Style */
+.no-messages {
+    text-align: center;
+    padding: 50px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.no-messages i {
+    font-size: 48px;
+    color: #e17055;
+    margin-bottom: 15px;
+}
+
+/* Back Button Style */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(45deg, #e17055, #d63031);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    margin-top: 30px;
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
     .messages-container {
-        padding: 15px;
+        margin-top: 80px;
     }
 
-    .toggle-dropdown {
+    .messages-header h1 {
+        font-size: 2rem;
+    }
+
+    .property-info {
         flex-direction: column;
+        gap: 10px;
     }
 
-    .toggle-dropdown label {
-        margin-bottom: 10px;
+    .message-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
     }
 }
