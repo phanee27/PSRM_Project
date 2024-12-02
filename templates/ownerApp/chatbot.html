@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot</title>
+    <title>Owner Chatbot</title>
     <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -305,12 +305,12 @@
     </style>
 </head>
 <body>
-    {% include 'Navbar/tenentNavBar.html' %}
+    {% include 'Navbar/ownerNavBar.html' %}
 
     <div class="chat-container">
         <div class="chat-header">
             <i class="fas fa-robot logo"></i>
-            <h1>AI Assistant</h1>
+            <h1>AI Assistant for Owner</h1>
         </div>
 
         <div class="messages" id="chatMessages"></div>

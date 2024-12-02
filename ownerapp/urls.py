@@ -24,5 +24,6 @@ path('ownerhomepage/',views.ownerhompage,name='ownerhomepage'),
     path('messages/', views.owner_messages, name='owner_messages'),
     path('messages/reply/<int:message_id>/', views.reply_to_tenant, name='reply_to_tenant'),
 
+    path('chatbot/',views.chatbot,name='chatbot'),
 
     ]

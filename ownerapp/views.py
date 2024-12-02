@@ -331,3 +331,24 @@ def reply_to_tenant(request, message_id):
         form = ReplyForm()
 
     return render(request, 'ownerapp/reply_message.html', {'form': form, 'message': message})
+
+
+# views.py
+from django.http import JsonResponse
+from django.shortcuts import render
+import google.generativeai as ai
+
+# Configure the API
+API_KEY = 'AIzaSyAnAnbZPrkChD4LlCBMfeGTQm0q_EQjzBI'
+ai.configure(api_key=API_KEY)
+model = ai.GenerativeModel("gemini-pro")
+chat = model.start_chat()
+
+def chatbot(request):
+    if request.method == 'POST':
+        user_message = request.POST.get('message', '')
+        if user_message.lower() == 'bye':
+            return JsonResponse({'response': 'Goodbye!'})
+        response = chat.send_message(user_message)
+        return JsonResponse({'response': response.text})
+    return render(request, 'ownerapp/chatbot.html')
