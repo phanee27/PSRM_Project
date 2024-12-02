@@ -14,4 +14,6 @@ urlpatterns = [
     path('messages/<int:message_id>/reply/', views.reply_to_owner, name='reply_to_owner'),
     path('property/<int:property_id>/send_message/', views.send_message, name='send_message'),
 
+    path('chatbot_view',views.chatbot_view,name='chatbot_view'),
+
 ]

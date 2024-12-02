@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(45deg, #e17055, #d63031, #e17055);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(214, 48, 49, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .messages {
+            height: 400px;
+            padding: 20px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            border: 2px solid rgba(225, 112, 85, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .message {
+            margin: 8px 0;
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-message {
+            margin-left: auto;
+            background: linear-gradient(45deg, #e17055, #d63031);
+            color: white;
+        }
+
+        .bot-message {
+            margin-right: auto;
+            background: white;
+            color: #333;
+            border: 1px solid #e17055;
+        }
+
+        .message-actions {
+            position: absolute;
+            top: -20px;
+            right: 0;
+            display: none;
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 3px 8px;
+            border-radius: 15px;
+        }
+
+        .message:hover .message-actions {
+            display: flex;
+        }
+
+        .action-button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 2px 5px;
+            font-size: 12px;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .action-button:hover {
+            opacity: 1;
+        }
+
+        .show-more-button {
+            background: none;
+            border: none;
+            color: #e17055;
+            cursor: pointer;
+            padding: 4px 8px;
+            margin-top: 8px;
+            font-size: 14px;
+            display: block;
+            transition: opacity 0.3s;
+        }
+
+        .show-more-button:hover {
+            opacity: 0.8;
+        }
+
+        #chatForm {
+            display: flex;
+            gap: 10px;
+        }
+
+        #userMessage {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid rgba(225, 112, 85, 0.3);
+            border-radius: 25px;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        #userMessage:focus {
+            border-color: #e17055;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(45deg, #e17055, #d63031);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            transform: scale(1.05);
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 15px;
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #e17055;
+            border-radius: 50%;
+            animation: typingDot 1s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingDot {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .messages::-webkit-scrollbar-track {
+            background: rgba(225, 112, 85, 0.1);
+        }
+
+        .messages::-webkit-scrollbar-thumb {
+            background: #e17055;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .messages {
+                height: 350px;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="messages" id="chatMessages"></div>
+        <form id="chatForm">
+            <input type="text" id="userMessage" placeholder="Type your message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <script>
+        const form = document.getElementById('chatForm');
+        const messagesDiv = document.getElementById('chatMessages');
+        const userMessageInput = document.getElementById('userMessage');
+        let editingMessage = null;
+
+        function truncateText(text, sentenceCount = 3) {
+            const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+            if (sentences.length <= sentenceCount) return { text, needsTruncation: false };
+
+            const truncated = sentences.slice(0, sentenceCount).join('');
+            return {
+                text: truncated,
+                fullText: text,
+                needsTruncation: true
+            };
+        }
+
+        function createMessageElement(message, isUser = true) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+
+            if (!isUser) {
+                const truncated = truncateText(message);
+                contentDiv.textContent = truncated.text;
+
+                if (truncated.needsTruncation) {
+                    const showMoreButton = document.createElement('button');
+                    showMoreButton.className = 'show-more-button';
+                    showMoreButton.textContent = 'Show more';
+                    let isExpanded = false;
+
+                    showMoreButton.onclick = () => {
+                        if (isExpanded) {
+                            contentDiv.textContent = truncated.text;
+                            showMoreButton.textContent = 'Show more';
+                        } else {
+                            contentDiv.textContent = truncated.fullText;
+                            showMoreButton.textContent = 'Show less';
+                        }
+                        contentDiv.appendChild(showMoreButton);
+                        isExpanded = !isExpanded;
+                    };
+
+                    contentDiv.appendChild(showMoreButton);
+                }
+            } else {
+                contentDiv.textContent = message;
+            }
+
+            messageDiv.appendChild(contentDiv);
+
+            if (isUser) {
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'message-actions';
+
+                const editButton = document.createElement('button');
+                editButton.className = 'action-button';
+                editButton.textContent = '✏️';
+                editButton.onclick = () => editMessage(messageDiv, message);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'action-button';
+                deleteButton.textContent = '🗑️';
+                deleteButton.onclick = () => deleteMessageAndResponses(messageDiv);
+
+                actionsDiv.appendChild(editButton);
+                actionsDiv.appendChild(deleteButton);
+                messageDiv.appendChild(actionsDiv);
+            }
+
+            return messageDiv;
+        }
+
+        function addTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            messagesDiv.appendChild(typingDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            return typingDiv;
+        }
+
+        function deleteMessageAndResponses(messageDiv) {
+            let currentElement = messageDiv;
+            let nextElement = messageDiv.nextElementSibling;
+
+            messageDiv.remove();
+
+            while (nextElement) {
+                const temp = nextElement.nextElementSibling;
+                nextElement.remove();
+                nextElement = temp;
+            }
+        }
+
+        function editMessage(messageDiv, originalMessage) {
+            userMessageInput.value = originalMessage;
+            userMessageInput.focus();
+            editingMessage = messageDiv;
+        }
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const userInput = userMessageInput.value.trim();
+
+            if (!userInput) return;
+
+            if (editingMessage) {
+                editingMessage.querySelector('.message-content').textContent = userInput;
+                let nextElement = editingMessage.nextElementSibling;
+                while (nextElement) {
+                    const temp = nextElement.nextElementSibling;
+                    nextElement.remove();
+                    nextElement = temp;
+                }
+                editingMessage = null;
+            } else {
+                const userMessageDiv = createMessageElement(userInput, true);
+                messagesDiv.appendChild(userMessageDiv);
+            }
+
+            userMessageInput.value = '';
+            userMessageInput.focus();
+
+            const typingIndicator = addTypingIndicator();
+
+            try {
+                const response = await fetch('', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: new URLSearchParams({ message: userInput })
+                });
+
+                const data = await response.json();
+                typingIndicator.remove();
+
+                const botMessageDiv = createMessageElement(data.response, false);
+                messagesDiv.appendChild(botMessageDiv);
+            } catch (error) {
+                console.error('Error:', error);
+                typingIndicator.remove();
+
+                const errorDiv = createMessageElement('Sorry, something went wrong. Please try again.', false);
+                errorDiv.classList.add('error-message');
+                messagesDiv.appendChild(errorDiv);
+            }
+
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+    </script>
+</body>
+</html>

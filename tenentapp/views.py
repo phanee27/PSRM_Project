@@ -160,7 +160,7 @@ from ownerapp.forms import MessageForm, ReplyForm
 @login_required
 def tenant_messages(request):
     # Fetch messages sent by the tenant and associated replies
-    tenant_messages = Message.objects.filter(tenant=request.user)  # assuming tenant is logged in
+    tenant_messages = Message.objects.filter(tenant=request.user).order_by('-timestamp')  # assuming tenant is logged in
     return render(request, 'tenentapp/messages.html', {'tenant_messages': tenant_messages})
 
 
@@ -213,3 +213,24 @@ def send_message(request, property_id):
         form = MessageForm()
 
     return render(request, 'tenentapp/send_message.html', {'form': form, 'property': property})
+
+
+# views.py
+from django.http import JsonResponse
+from django.shortcuts import render
+import google.generativeai as ai
+
+# Configure the API
+API_KEY = 'AIzaSyAnAnbZPrkChD4LlCBMfeGTQm0q_EQjzBI'
+ai.configure(api_key=API_KEY)
+model = ai.GenerativeModel("gemini-pro")
+chat = model.start_chat()
+
+def chatbot_view(request):
+    if request.method == 'POST':
+        user_message = request.POST.get('message', '')
+        if user_message.lower() == 'bye':
+            return JsonResponse({'response': 'Goodbye!'})
+        response = chat.send_message(user_message)
+        return JsonResponse({'response': response.text})
+    return render(request, 'tenentapp/chatbot.html')
