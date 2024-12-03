@@ -3,102 +3,1019 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PS6 - Property Sales & Rental Management</title>
-    <link rel="stylesheet" href="{% static 'css/adminApp/homepage.css' %}">
+    <title>Property Admin Dashboard</title>
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FFD3B5;
+            --secondary-color: #FFAAA6;
+            --accent-color: #FF8C94;
+            --background-light: #fff5f5;
+            --text-dark: #333;
+            --sidebar-width: 250px;
+            --header-height: 70px;
+            --success-color: #4CAF50;
+            --warning-color: #FFC107;
+            --danger-color: #FF5252;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--background-light);
+            display: flex;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            gap: 10px;
+            margin: 5px 0;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            height: var(--header-height);
+            background: white;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--background-light);
+            padding: 10px 20px;
+            border-radius: 25px;
+            width: 400px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notifications {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            padding: 30px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background: var(--primary-color);
+            color: white;
+        }
+                /* Stats Container */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: var(--primary-color);
+            opacity: 0.1;
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+
+        .stat-card h3 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        .stat-card .icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            opacity: 0.8;
+        }
+
+        /* Charts Container */
+        .charts-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Property List */
+        .property-list {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .view-all-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: var(--accent-color);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .property-image {
+            position: relative;
+            height: 200px;
+        }
+
+        .property-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .property-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-available {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .status-rented {
+            background: var(--warning-color);
+            color: var(--text-dark);
+        }
+
+        .status-sold {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .property-details {
+            padding: 20px;
+        }
+
+        .property-details h4 {
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .property-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .property-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .property-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .property-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .property-actions button {
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .delete-btn {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .view-btn {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Map Container */
+        .map-container {
+            height: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        #propertyMap {
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        /* Recent Activities */
+        .recent-activities {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .activity-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar span, .sidebar-header h2 {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+
+            .search-bar {
+                width: 200px;
+            }
+
+            .quick-actions {
+                flex-wrap: wrap;
+            }
+        }
+        /* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 20px;
+    width: 70%;
+    max-width: 800px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-dark);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.submit-btn {
+    background: var(--accent-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: var(--secondary-color);
+}
+    </style>
 </head>
 <body>
-{% block body %}
-
-    <!-- Include the navbar here -->
-    {% include 'Navbar/adminNavBar.html' %}
-
-    <!-- Hero Section -->
-    <section class="hero" style="background-image: url('{% static 'images/herosection.jpg' %}');">
-        <div class="hero-content">
-            <h1>Manage Properties Effortlessly</h1>
-            <p>Your trusted platform for seamless property sales, rentals, and management.</p>
-            <a href="#properties" class="cta-btn">Explore Properties</a>
+ 
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo">
+            <h2>PropAdmin</h2>
         </div>
-    </section>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-building"></i>
+                <span>Properties</span>
+                <span class="badge">{{ total_properties }}</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-key"></i>
+                <span>Rentals</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-file-contract"></i>
+                <span>Contracts</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Payments</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-tools"></i>
+                <span>Maintenance</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </div>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <h2>Platform Features</h2>
-        <div class="feature-grid">
-            <div class="feature-item">
-                <img src="{% static 'images/feature1.jpeg' %}" alt="Feature 1">
-                <h3>Real-Time Property Availability</h3>
-                <p>Instantly check the availability status of properties in real-time, making it easier for buyers and renters to find their ideal home.</p>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search properties, users, or documents...">
             </div>
-            <div class="feature-item">
-                <img src="{% static 'images/feature2.jpeg' %}" alt="Feature 2">
-                <h3>Advanced Search Filters</h3>
-                <p>Find properties based on location, price range, property type, and more, ensuring users can easily discover their perfect property.</p>
-            </div>
-            <div class="feature-item">
-                <img src="{% static 'images/feature3.png' %}" alt="Feature 3">
-                <h3>User Ratings & Reviews</h3>
-                <p>Get honest feedback from previous tenants and property owners to make informed decisions.</p>
-            </div>
-            <div class="feature-item">
-                <img src="{% static 'images/feature4.png' %}" alt="Feature 4">
-                <h3>AI-Powered Chatbot Assistance</h3>
-                <p>Our intelligent chatbot is available 24/7 to assist with property searches, rental agreements, and other inquiries.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Property Listings Section -->
-    <section class="property-listings" id="properties">
-        <div class="section-header">
-            <h2>Featured Properties</h2>
-            <!-- "View More" Button aligned to the right -->
-            <div class="btn-conteiner">
-                <a class="btn-content" href="{% url 'ownerapp:property_list' %}">
-                    <span class="btn-title">VIEW MORE</span>
-                    <span class="icon-arrow">
-                        <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <path id="arrow-icon-one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
-                                <path id="arrow-icon-two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
-                                <path id="arrow-icon-three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
-                            </g>
-                        </svg>
-                    </span>
-                </a>
-            </div>
-        </div>
-        <div class="property-grid">
-            <div class="property">
-                <img src="{% static 'images/property1.jpg' %}" alt="Property 1">
-                <h3>Modern 3-bedroom apartment</h3>
-                <p>Modern 3-bedroom apartment with stunning city views.</p>
-            </div>
-            <div class="property">
-                <img src="{% static 'images/property2.jpg' %}" alt="Property 2">
-                <h3>Luxurious Villa</h3>
-                <p>Luxurious villa with private pool in the heart of the city.</p>
-            </div>
-            <div class="property">
-                <img src="{% static 'images/property3.jpg' %}" alt="Property 3"> <!-- Reused image for Property 3 -->
-                <h3>Modern Villa</h3>
-                <p>Exterior 3d Visualization.</p>
-            </div>
-             <div class="property">
-                <img src="{% static 'images/property3.jpg' %}" alt="Property 3"> <!-- Reused image for Property 3 -->
-                <h3>Modern Villa</h3>
-                <p>Exterior 3d Visualization.</p>
+            <div class="header-right">
+                <div class="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="user-profile">
+                    <img src="{% static 'img/admin-avatar.jpg' %}" alt="Admin">
+                    <div class="user-info">
+                        <span class="user-name">{{ user.name }}</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- Footer Section -->
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2024 PS6 - Property Sales & Rental Management. All rights reserved.</p>
+        <!-- Dashboard Container -->
+        <div class="dashboard-container">
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="action-btn" onclick="showAddPropertyModal()">
+                    <i class="fas fa-plus"></i>
+                    Add Property
+                </button>
+                <button class="action-btn" onclick="showAddUserModal()">
+                    <i class="fas fa-user-plus"></i>
+                    Add User
+                </button>
+                <button class="action-btn" onclick="showNewContractModal()">
+                    <i class="fas fa-file-signature"></i>
+                    New Contract
+                </button>
+                <button class="action-btn" onclick="exportReport()">
+                    <i class="fas fa-download"></i>
+                    Export Report
+                </button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <i class="fas fa-users icon"></i>
+                    <h3>Total Users</h3>
+                    <div class="number">{{ total_users }}</div>
+                    <div class="stat-trend positive">+5.2% ↑</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-home icon"></i>
+                    <h3>Properties Listed</h3>
+                    <div class="number">{{ total_properties }}</div>
+                    <div class="stat-trend positive">+3.1% ↑</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-key icon"></i>
+                    <h3>Active Rentals</h3>
+                    <div class="number">{{ active_rentals }}</div>
+                    <div class="stat-trend negative">-1.2% ↓</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-dollar-sign icon"></i>
+                    <h3>Total Revenue</h3>
+                    <div class="number">${{ total_revenue }}</div>
+                    <div class="stat-trend positive">+8.3% ↑</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-container">
+                <div class="chart-card">
+                    <canvas id="propertiesChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <canvas id="userTypeChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Property List -->
+            <div class="property-list">
+                <div class="section-header">
+                    <h3>Recent Properties</h3>
+                    <button class="view-all-btn">View All</button>
+                </div>
+                <div class="property-grid">
+                    {% for property in recent_properties %}
+                    <div class="property-card">
+                        <div class="property-image">
+                            <img src="{{ property.image.url }}" alt="{{ property.title }}">
+                            <span class="property-status {{ property.status|lower }}">
+                                {{ property.status }}
+                            </span>
+                        </div>
+                        <div class="property-details">
+                            <h4>{{ property.title }}</h4>
+                            <p class="property-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                {{ property.location }}
+                            </p>
+                            <div class="property-info">
+                                <span><i class="fas fa-bed"></i> {{ property.bedrooms }} Beds</span>
+                                <span><i class="fas fa-bath"></i> {{ property.bathrooms }} Baths</span>
+                                <span><i class="fas fa-ruler-combined"></i> {{ property.area }} sq ft</span>
+                            </div>
+                            <div class="property-price">${{ property.price }}</div>
+                            <div class="property-actions">
+                                <button class="edit-btn" onclick="editProperty({{ property.id }})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="delete-btn" onclick="deleteProperty({{ property.id }})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <button class="view-btn" onclick="viewProperty({{ property.id }})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Map -->
+            <div class="map-container">
+                <div id="propertyMap"></div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="recent-activities">
+                <h3>Recent Activities</h3>
+                <div class="activity-list">
+                    {% for activity in recent_activities %}
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">{{ activity.title }}</div>
+                            <div class="activity-time">{{ activity.timestamp }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
 
-{% endblock %}
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Modal Components -->
+    <div id="addPropertyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Property</h2>
+            <form id="addPropertyForm">
+                <div class="form-group">
+                    <label>Property Title</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" name="location" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="number" name="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status" required>
+                            <option value="available">Available</option>
+                            <option value="rented">Rented</option>
+                            <option value="sold">Sold</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Bedrooms</label>
+                        <input type="number" name="bedrooms" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Bathrooms</label>
+                        <input type="number" name="bathrooms" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Area (sq ft)</label>
+                        <input type="number" name="area" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Property Images</label>
+                    <input type="file" name="images" multiple accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="4"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Add Property</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Charts Initialization
+        const propertiesChart = new Chart(
+            document.getElementById('propertiesChart').getContext('2d'),
+            {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Properties Listed',
+                        data: [12, 19, 3, 5, 2, 3],
+                        borderColor: '#FF8C94',
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(255, 140, 148, 0.1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Property Listings Over Time'
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            }
+        );
+
+        const userTypeChart = new Chart(
+            document.getElementById('userTypeChart').getContext('2d'),
+            {
+                type: 'doughnut',
+                data: {
+                    labels: ['Owners', 'Tenants', 'Agents'],
+                    datasets: [{
+                        data: [30, 50, 20],
+                        backgroundColor: ['#FFD3B5', '#FFAAA6', '#FF8C94']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'User Distribution'
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            }
+        );
+
+        // Map Initialization
+        const map = L.map('propertyMap').setView([0, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add sample property markers
+        const properties = [
+            { lat: 40.7128, lng: -74.0060, name: "New York Property" },
+            { lat: 51.5074, lng: -0.1278, name: "London Property" },
+            { lat: 35.6762, lng: 139.6503, name: "Tokyo Property" }
+        ];
+
+        properties.forEach(property => {
+            L.marker([property.lat, property.lng])
+                .bindPopup(property.name)
+                .addTo(map);
+        });
+
+        // Modal Functions
+        function showAddPropertyModal() {
+            document.getElementById('addPropertyModal').style.display = 'block';
+        }
+
+        function showAddUserModal() {
+            // Implement user modal
+        }
+
+        function showNewContractModal() {
+            // Implement contract modal
+        }
+
+        // Property CRUD Operations
+        async function addProperty(formData) {
+            try {
+                const response = await fetch('/api/properties/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: formData
+                });
+                if (response.ok) {
+                    // Refresh property list
+                    location.reload();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function editProperty(propertyId) {
+            // Implement edit functionality
+        }
+
+        async function deleteProperty(propertyId) {
+            if (confirm('Are you sure you want to delete this property?')) {
+                try {
+                    const response = await fetch(`/api/properties/${propertyId}/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        }
+                    });
+                    if (response.ok) {
+                        // Remove property card from DOM
+                        document.querySelector(`[data-property-id="${propertyId}"]`).remove();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        }
+
+        function viewProperty(propertyId) {
+            window.location.href = `/properties/${propertyId}/`;
+        }
+
+        // Export Function
+        function exportReport() {
+            // Implement export functionality
+            alert('Generating report...');
+        }
+
+        // Search Functionality
+        const searchInput = document.querySelector('.search-bar input');
+        searchInput.addEventListener('input', debounce(async (e) => {
+            const searchTerm = e.target.value;
+            if (searchTerm.length > 2) {
+                try {
+                    const response = await fetch(`/api/search/?q=${searchTerm}`);
+                    const results = await response.json();
+                    // Update UI with search results
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        }, 300));
+
+        // Utility Functions
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            }
+
+            // Form submission
+            document.getElementById('addPropertyForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                addProperty(formData);
+            });
+
+            // Notifications
+            document.querySelector('.notifications').addEventListener('click', function() {
+                // Implement notifications panel
+            });
+
+            // User profile dropdown
+            document.querySelector('.user-profile').addEventListener('click', function() {
+                // Implement user dropdown
+            });
+        });
+    </script>
 </body>
 </html>

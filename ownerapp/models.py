@@ -26,6 +26,9 @@ class Property(models.Model):
     image_3 = models.ImageField(upload_to='property_images/', blank=True, null=True)
     overview = models.TextField(max_length=100)
     location = models.CharField(max_length=200)
+
+    location_url = models.URLField(max_length=500,blank=True,null=True,help_text="OpenStreetMap URL for the property location")
+
     address = models.TextField(max_length=300, blank=True, null=True)  # New address field
     property_type = models.CharField(max_length=10, choices=PROPERTY_TYPE_CHOICES, default='Rent')
     price = models.DecimalField(max_digits=10, decimal_places=2)

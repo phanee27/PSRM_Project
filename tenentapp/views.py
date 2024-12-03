@@ -221,7 +221,7 @@ from django.shortcuts import render
 import google.generativeai as ai
 
 # Configure the API
-API_KEY = 'AIzaSyAnAnbZPrkChD4LlCBMfeGTQm0q_EQjzBI'
+API_KEY = 'AIzaSyBzliAxdfyMS7Zo7Tjz0cdGQ4aKkQfhPlk'
 ai.configure(api_key=API_KEY)
 model = ai.GenerativeModel("gemini-pro")
 chat = model.start_chat()

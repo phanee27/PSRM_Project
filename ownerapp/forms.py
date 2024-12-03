@@ -9,7 +9,7 @@ class PropertyForm(forms.ModelForm):
     class Meta:
         model = Property
         fields = [
-            'title', 'image', 'image_2', 'image_3', 'overview', 'location', 'address',
+            'title', 'image', 'image_2', 'image_3', 'overview', 'location', 'location_url', 'address',
             'property_type', 'price', 'description', 'size', 'bedrooms', 'bathrooms',
             'parking', 'year_built', 'flooring_type', 'owner_name', 'email', 'phone', 'occupancy_status'
         ]
