@@ -43,12 +43,12 @@ body {
 
 .search-wrapper {
     position: relative;
-    flex: 7; /* 70% width */
+    flex: 7;
 }
 
 .filter-wrapper {
     position: relative;
-    flex: 3; /* 30% width */
+    flex: 3;
 }
 
 .search-icon,
@@ -83,11 +83,11 @@ select:focus {
 /* Property List Grid */
 .property-list {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Changed to 5 columns */
+    grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     padding: 20px;
     margin: 0 auto;
-    max-width: 1800px; /* Increased max-width to accommodate 5 cards */
+    max-width: 1800px;
 }
 
 /* Property Card */
@@ -99,21 +99,17 @@ select:focus {
     transition: var(--transition);
     display: flex;
     flex-direction: column;
-    max-width: 320px; /* Adjusted max-width for 5 cards */
+    max-width: 320px;
     width: 100%;
     margin: 0 auto;
-}
-
-.property-card:hover:not(.no-hover) {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
 }
 
 /* Property Image Container */
 .property-image-container {
     position: relative;
     width: 100%;
-    padding-top: 66.67%; /* 3:2 Aspect Ratio */
+    padding-top: 66.67%;
+    overflow: hidden;
 }
 
 .property-image {
@@ -123,7 +119,11 @@ select:focus {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition);
+    transition: transform 0.3s ease;
+}
+
+.property-image-container:hover .property-image {
+    transform: scale(1.1);
 }
 
 /* Status Badge */
@@ -320,6 +320,27 @@ select:focus {
 }
 
 /* Responsive Design */
+@media (max-width: 1800px) {
+    .property-list {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1440px;
+    }
+}
+
+@media (max-width: 1440px) {
+    .property-list {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1140px;
+    }
+}
+
+@media (max-width: 1140px) {
+    .property-list {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 768px;
+    }
+}
+
 @media (max-width: 768px) {
     .search-input-group {
         flex-direction: column;
@@ -346,6 +367,31 @@ select:focus {
     .delete-button,
     .reset-button {
         width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .property-list {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .property-card {
+        max-width: 100%;
+    }
+
+    .search-filter-container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .property-details {
+        padding: 15px;
+    }
+
+    .status-badge {
+        padding: 6px 12px;
+        font-size: 0.8rem;
     }
 }
 

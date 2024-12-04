@@ -13,11 +13,17 @@ class OwnerUser(models.Model):
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 class Property(models.Model):
     PROPERTY_TYPE_CHOICES = [
         ('Rent', 'Rent'),
         ('Sale', 'Sale'),
+    ]
+
+    OCCUPANCY_CHOICES = [
+        ('Available', 'Available'),
+        ('Not Available', 'Not Available'),
     ]
 
     title = models.CharField(max_length=200)
@@ -26,27 +32,35 @@ class Property(models.Model):
     image_3 = models.ImageField(upload_to='property_images/', blank=True, null=True)
     overview = models.TextField(max_length=100)
     location = models.CharField(max_length=200)
-
-    location_url = models.URLField(max_length=500,blank=True,null=True,help_text="OpenStreetMap URL for the property location")
-
-    address = models.TextField(max_length=300, blank=True, null=True)  # New address field
+    location_url = models.URLField(max_length=500, blank=True, null=True, help_text="OpenStreetMap URL for the property location")
+    address = models.TextField(max_length=300, blank=True, null=True)
     property_type = models.CharField(max_length=10, choices=PROPERTY_TYPE_CHOICES, default='Rent')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
-    size = models.PositiveIntegerField()  # Property size in square feet
+    size = models.PositiveIntegerField()
     bedrooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
-    parking = models.CharField(max_length=20)  # Available / Not Available
+    parking = models.CharField(max_length=20)
     year_built = models.PositiveIntegerField()
     flooring_type = models.CharField(max_length=100)
     owner_name = models.CharField(max_length=100, default='Unknown Owner')
     email = models.EmailField()
     phone = models.CharField(max_length=15)
-    occupancy_status = models.CharField(max_length=20, default='Available')
+    occupancy_status = models.CharField(
+        max_length=20,
+        choices=OCCUPANCY_CHOICES,
+        default='Available'
+    )
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='properties', default=1)
+
+    def clean(self):
+        super().clean()
+        if self.occupancy_status not in dict(self.OCCUPANCY_CHOICES):
+            raise ValidationError(f"'{self.occupancy_status}' is not a valid occupancy status.")
 
     def __str__(self):
         return self.title
+
 
 # models.py
 
