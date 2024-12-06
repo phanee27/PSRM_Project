@@ -27,7 +27,7 @@ class OwnerProfileForm(forms.ModelForm):
 
     class Meta:
         model = OwnerProfile
-        fields = ['profile_image', 'email', 'phone_number', 'address']
+        fields = ['profile_image','email', 'phone_number', 'address']
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')

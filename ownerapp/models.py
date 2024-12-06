@@ -47,7 +47,7 @@ class Property(models.Model):
     parking = models.CharField(max_length=20,choices=PARKING,default='Available')
     year_built = models.PositiveIntegerField()
     flooring_type = models.CharField(max_length=100)
-    owner_name = models.CharField(max_length=100, default='Unknown Owner')
+    owner_name = models.CharField(max_length=100, default='Owner Name')
     email = models.EmailField()
     phone = models.CharField(max_length=15)
     occupancy_status = models.CharField(max_length=20,choices=OCCUPANCY_CHOICES,default='Available')
@@ -86,6 +86,8 @@ class OwnerProfile(models.Model):
         if not self.email:
             self.email = self.user.email
         super().save(*args, **kwargs)
+
+
 from tenentapp.models import TenentUser
 
 class RentalContract(models.Model):

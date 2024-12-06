@@ -12,8 +12,8 @@ def tenenthompage(request):
 def about_us(request):
     return render(request,'tenentApp/about_us.html')
 
-# tenentapp/views.py
 
+# tenentapp/views.py
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
@@ -22,40 +22,50 @@ from django.contrib.auth.decorators import login_required
 from .models import TenentProfile
 from .forms import TenentProfileForm
 
+
 @login_required
 def tenent_profile(request):
-    # Ensure there is always a TenentProfile for the user
-    profile, created = TenentProfile.objects.get_or_create(user=request.user)
+    profile, created = TenentProfile.objects.get_or_create(
+        user=request.user,
+        defaults={
+            'email': request.user.email
+        }
+    )
 
     if request.method == 'POST':
-        # Handle the profile update form
-        form = TenentProfileForm(request.POST, request.FILES, instance=profile)
         if 'update_profile' in request.POST:
+            form = TenentProfileForm(request.POST, request.FILES, instance=profile)
             if form.is_valid():
-                form.save()
-                messages.success(request, 'Profile updated successfully!')
-                return redirect('tenentapp:tenent_profile')  # Redirect to avoid resubmission
+                profile = form.save(commit=False)
+                request.user.email = form.cleaned_data['email']
+                request.user.save()
+                profile.save()
+                messages.success(request, 'Profile updated successfully! 🎉')
+                return redirect('tenentapp:tenent_profile')
+            else:
+                messages.error(request, 'Please correct the errors below.')
 
-        # Handle the password change form
-        password_form = PasswordChangeForm(request.user, request.POST)
-        if 'change_password' in request.POST:
+        elif 'change_password' in request.POST:
+            password_form = PasswordChangeForm(request.user, request.POST)
             if password_form.is_valid():
                 user = password_form.save()
-                update_session_auth_hash(request, user)  # Important!
-                messages.success(request, 'Password changed successfully!')
-                return redirect('tenentapp:tenent_profile')  # Redirect to avoid resubmission
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Password changed successfully! 🔐')
+                return redirect('tenentapp:tenent_profile')
+            else:
+                messages.error(request, 'Please correct the password errors.')
 
     else:
-        form = TenentProfileForm(instance=profile)
+        form = TenentProfileForm(instance=profile, initial={'email': request.user.email})
         password_form = PasswordChangeForm(request.user)
 
-    return render(request, 'tenentApp/tenentProfile.html', {
+    context = {
         'form': form,
         'password_form': password_form,
-        'profile': profile
-    })
-
-
+        'profile': profile,
+        'page_title': 'Profile Settings'
+    }
+    return render(request, 'tenentApp/tenentProfile.html', context)
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
