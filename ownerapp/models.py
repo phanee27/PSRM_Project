@@ -46,11 +46,7 @@ class Property(models.Model):
     owner_name = models.CharField(max_length=100, default='Unknown Owner')
     email = models.EmailField()
     phone = models.CharField(max_length=15)
-    occupancy_status = models.CharField(
-        max_length=20,
-        choices=OCCUPANCY_CHOICES,
-        default='Available'
-    )
+    occupancy_status = models.CharField(max_length=20,choices=OCCUPANCY_CHOICES,default='Available')
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='properties', default=1)
 
     def clean(self):
@@ -61,23 +57,31 @@ class Property(models.Model):
     def __str__(self):
         return self.title
 
-
 # models.py
-
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.utils import timezone
 
 class OwnerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
-    phone_number = models.CharField(max_length=15, blank=True)
-    address = models.TextField(blank=True)
+    profile_image = models.ImageField(upload_to='profile_images/',blank=True,null=True,help_text="Upload a profile picture (Optional)")
+    email = models.EmailField(max_length=255,null=True,blank=True,help_text="Your email address")
+    phone_number = models.CharField(max_length=15,blank=True,null=True,help_text="Enter your contact number")
+    address = models.TextField(blank=True,null=True,help_text="Your complete address")
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username}'s Profile"
 
+    class Meta:
+        ordering = ['-created_at']
 
+    def save(self, *args, **kwargs):
+        # Set email from user's email if not provided
+        if not self.email:
+            self.email = self.user.email
+        super().save(*args, **kwargs)
 from tenentapp.models import TenentUser
 
 class RentalContract(models.Model):

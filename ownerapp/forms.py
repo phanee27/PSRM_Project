@@ -16,22 +16,32 @@ class PropertyForm(forms.ModelForm):
 
 
 # forms.py
-
 from django import forms
 from .models import OwnerProfile
 
-
 class OwnerProfileForm(forms.ModelForm):
+    email = forms.EmailField(required=True,widget=forms.EmailInput(attrs={'class': 'form-input','placeholder': 'Enter your email'}))
+    phone_number = forms.CharField(required=True,widget=forms.TextInput(attrs={'class': 'form-input','placeholder': 'Enter your phone number'}))
+    address = forms.CharField(required=True,widget=forms.Textarea(attrs={'class': 'form-input','placeholder': 'Enter your address','rows': 3}))
+    profile_image = forms.ImageField(required=False,widget=forms.FileInput(attrs={'class': 'form-input-file','accept': 'image/*'}))
+
     class Meta:
         model = OwnerProfile
-        fields = ['profile_image', 'phone_number', 'address']
-
+        fields = ['profile_image', 'email', 'phone_number', 'address']
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
-        if phone_number and not phone_number.isdigit():
+        if not phone_number.isdigit():
             raise forms.ValidationError("Phone number should only contain digits.")
+        if len(phone_number) < 10:
+            raise forms.ValidationError("Phone number should be at least 10 digits.")
         return phone_number
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if OwnerProfile.objects.filter(email=email).exclude(user=self.instance.user).exists():
+            raise forms.ValidationError("This email is already in use.")
+        return email
 
 
 class RentalContractForm(forms.ModelForm):
