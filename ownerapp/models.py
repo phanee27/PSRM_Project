@@ -25,6 +25,10 @@ class Property(models.Model):
         ('Available', 'Available'),
         ('Not Available', 'Not Available'),
     ]
+    PARKING = [
+        ('Available', 'Available'),
+        ('Not Available', 'Not Available'),
+    ]
 
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='property_images/')
@@ -40,7 +44,7 @@ class Property(models.Model):
     size = models.PositiveIntegerField()
     bedrooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
-    parking = models.CharField(max_length=20)
+    parking = models.CharField(max_length=20,choices=PARKING,default='Available')
     year_built = models.PositiveIntegerField()
     flooring_type = models.CharField(max_length=100)
     owner_name = models.CharField(max_length=100, default='Unknown Owner')
