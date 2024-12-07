@@ -152,7 +152,7 @@ def contact_owner(request, property_id):
         email_message.send()
 
         # Show success message and redirect
-        messages.success(request, 'Your message has been sent to the property owner.')
+        # messages.success(request, 'Your message has been sent to the property owner.')
         return redirect('tenentapp:property_detail', property_id=property_id)
 
     return render(request, 'contact_owner.html', {'property': property})
@@ -188,7 +188,7 @@ def reply_to_owner(request, message_id):
             reply.tenant = request.user  # The logged-in tenant
             reply.save()
 
-            messages.success(request, "Your reply has been sent.")
+            # messages.success(request, "Your reply has been sent.")
             return redirect('tenentapp:tenant_messages')  # Redirect to message listing page
     else:
         form = ReplyForm()
@@ -215,10 +215,10 @@ def send_message(request, property_id):
             message.owner = property.owner  # Set the owner of the property
             message.property = property  # Set the related property
             message.save()  # Save the message to the database
-            messages.success(request, "Your message has been sent.")
+            # messages.success(request, "Your message has been sent.")
             return redirect('tenentapp:property_detail', pk=property.id)  # Ensure you have this URL pattern
-        else:
-            messages.error(request, "Please correct the errors below.")
+        # else:
+        #     messages.error(request, "Please correct the errors below.")
     else:
         form = MessageForm()
 

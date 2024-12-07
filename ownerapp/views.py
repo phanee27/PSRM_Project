@@ -37,7 +37,7 @@ def login_or_register1(request):
                 user.save()
                 messages.success(request, 'Registration successful! Please complete your profile.')
                 # return redirect('ownerapp:owner_profile')  # Redirect to profile creation page
-                return redirect('adminapp:login_or_register')  # Redirect to the same page for login
+                return redirect('ownerapp:login_or_register1')  # Redirect to the same page for login
         
         elif 'login' in request.POST:
             # Login Logic
