@@ -31,7 +31,7 @@ def tenent_profile(request):
             'email': request.user.email
         }
     )
-
+    form = None
     if request.method == 'POST':
         if 'update_profile' in request.POST:
             form = TenentProfileForm(request.POST, request.FILES, instance=profile)
